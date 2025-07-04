@@ -87,13 +87,26 @@ def login():
 
 @auth_bp.route('/logout')
 def logout():
-    """Cierra la sesión del usuario actual.
-    
-    - Elimina todos los datos de la sesión actual
-    - Redirige al usuario a la página de login
-    
+    """Cierra la sesión del usuario actual, conservando el idioma.
+
+    - Guarda el idioma actual de la sesión.
+    - Limpia todos los demás datos de la sesión.
+    - Restaura el idioma en la nueva sesión.
+    - Redirige al usuario a la página de login.
+
     Returns:
-        redirect: Redirige al usuario a la página de login
+        redirect: Redirección a la página de login.
     """
-    session.clear()  # Elimina todos los datos de sesión
+    # Guarda el idioma actual antes de limpiar la sesión
+    lang = session.get('lang', None)
+
+    # Limpia la sesión para eliminar los datos del usuario
+    session.clear()
+
+    # Restaura el idioma en la nueva sesión
+    if lang:
+        session['lang'] = lang
+        print(f"[LOGOUT] Language '{lang}' preserved after logout.")
+
+    flash('Has cerrado sesión exitosamente.', 'success')
     return redirect(url_for('auth.login'))

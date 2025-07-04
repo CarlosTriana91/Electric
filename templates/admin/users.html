@@ -1,0 +1,89 @@
+{% extends "_base.html" %}
+
+{% block title %}{{ _('Gestión de Usuarios') }}{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">{{ _('Inicio') }}</a></li>
+<li class="breadcrumb-item active" aria-current="page">{{ _('Gestión de Usuarios') }}</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Columna para el formulario de creación -->
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-user-plus me-2"></i>{{ _('Crear Nuevo Usuario') }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('admin.manage_users') }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">{{ _('Nombre de Usuario') }}</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">{{ _('Contraseña') }}</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">{{ _('Rol') }}</label>
+                        <select class="form-select" id="role" name="role">
+                            <option value="Ingeniero">{{ _('Ingeniero') }}</option>
+                            <option value="Consultor">{{ _('Consultor') }}</option>
+                            <option value="Administrador">{{ _('Administrador') }}</option>
+                        </select>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">{{ _('Crear Usuario') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Columna para la lista de usuarios -->
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="fas fa-users me-2"></i>{{ _('Usuarios Existentes') }}</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>{{ _('Nombre de Usuario') }}</th>
+                                <th>{{ _('Rol') }}</th>
+                                <!-- <th>Acciones</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>
+                                    {% if user.role == 'Administrador' %}
+                                    <span class="badge bg-danger">{{ _(user.role) }}</span>
+                                    {% elif user.role == 'Ingeniero' %}
+                                    <span class="badge bg-success">{{ _(user.role) }}</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">{{ _(user.role) }}</span>
+                                    {% endif %}
+                                </td>
+                                <!-- Espacio para futuros botones de editar/eliminar -->
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3" class="text-center">{{ _('No hay usuarios registrados.') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

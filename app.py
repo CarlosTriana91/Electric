@@ -1,145 +1,137 @@
 # Importaciones necesarias para la aplicación
-# Flask: Framework web para Python
-# Módulos propios: auth, db_init, calculations, reporting, exports
-from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify, send_from_directory
+from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify, send_from_directory, g
 from flask_babel import Babel, gettext as _
-from flask_compress import Compress  # Para comprimir respuestas HTTP y mejorar el rendimiento
+from flask_compress import Compress
 from datetime import timedelta
+from jinja2 import select_autoescape
 
 # Importación de módulos propios
-from modules.auth import auth_bp  # Gestión de autenticación
-from modules.db_init import init_user_db, init_normative_db  # Inicialización de bases de datos
-from modules.calculations import select_cable, calculate_voltage_drop, dimension_channel  # Cálculos eléctricos
-from modules.reporting import generate_pdf_report, generate_excel_report  # Generación de reportes
-from modules.exports import export_for_revit  # Exportación a Revit
+from modules.auth import auth_bp
+from modules.db_init import init_user_db, init_normative_db
+from modules.calculations import select_cable, calculate_voltage_drop, dimension_channel
+from modules.reporting import generate_pdf_report, generate_excel_report
+from modules.exports import export_for_revit
+from modules.admin import admin_bp
 
 # Bibliotecas estándar
-import os  # Operaciones del sistema de archivos
-import pandas as pd  # Manipulación de datos
-from datetime import datetime  # Manejo de fechas y horas
+import os
+import pandas as pd
+from datetime import datetime
 
 # Inicialización y configuración de la aplicación Flask
 app = Flask(__name__)
-app.secret_key = 'tu_clave_secreta_aqui'  # Clave para sesiones y cookies - IMPORTANTE: Cambiar en producción
+app.secret_key = 'tu_clave_secreta_aqui'
+app.register_blueprint(admin_bp)
 
-# Selector de idioma 
+
+# Configuración de Jinja2 y Babel
+app.jinja_env.add_extension('jinja2.ext.i18n')
+app.jinja_env.autoescape = select_autoescape(['html', 'xml'])
+
+# Configuración de Babel (DEBE estar antes de la inicialización de Babel)
+app.config.update(
+    BABEL_DEFAULT_LOCALE='es',
+    BABEL_TRANSLATION_DIRECTORIES='translations',
+    LANGUAGES={'en': 'English', 'es': 'Español'},
+    BABEL_SUPPORTED_LOCALES=['es', 'en']
+)
+
+# Selector de idioma
 def get_locale():
-    # 1) Si el usuario eligió un idioma (guardado en session), úsalo:
-    if 'lang' in session:
-        print(f"Using session language: {session['lang']}")  # Debug print
+    # Prioriza el idioma de la sesión, si es válido
+    if 'lang' in session and session['lang'] in app.config['BABEL_SUPPORTED_LOCALES']:
         return session['lang']
-    # 2) Si en la URL viene ?lang=xx y está soportado, guárdalo y úsalo:
-    lang = request.args.get('lang')
-    if lang in app.config['BABEL_SUPPORTED_LOCALES']:
-        print(f"Using URL language: {lang}")  # Debug print
-        session['lang'] = lang
-        return lang
-    # 3) Finalmente, usa el mejor match del navegador:
-    best_match = request.accept_languages.best_match(
-        app.config['BABEL_SUPPORTED_LOCALES']
-    )
-    print(f"Using browser language: {best_match}")  # Debug print
-    return best_match
+    # Si no, intenta con el mejor match del navegador
+    best_match = request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
+    if best_match:
+        return best_match
+    # Finalmente, usa el idioma por defecto
+    return app.config['BABEL_DEFAULT_LOCALE']
 
-# Configuración de Babel
-app.config['BABEL_DEFAULT_LOCALE']    = 'es'               # idioma por defecto
-app.config['BABEL_SUPPORTED_LOCALES'] = ['es', 'en']       # idiomas soportados
-
+# Inicialización de Babel
 babel = Babel(app, locale_selector=get_locale)
 
 # Configuración de rutas de bases de datos
-app.config['USER_DB'] = os.path.join('database', 'users.db')  # Base de datos de usuarios
-app.config['NORM_DB'] = os.path.join('database', 'normative_data.db')  # Base de datos de normativas
+app.config['USER_DB'] = os.path.join('database', 'users.db')
+app.config['NORM_DB'] = os.path.join('database', 'normative_data.db')
 
-# Activar compresión de respuestas HTTP para mejorar el rendimiento
+# Activar compresión de respuestas HTTP
 Compress(app)
 
-# Configuración de caché para archivos estáticos (CSS, JS, imágenes)
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = timedelta(days=7)  # Caché de 7 días
+# Configuración de caché para archivos estáticos
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = timedelta(days=7)
 
-# Middleware para agregar headers de caché
 @app.after_request
 def add_header(response):
-    """Agrega headers de control de caché a las respuestas HTTP"""
     if 'Cache-Control' not in response.headers:
-        response.headers['Cache-Control'] = 'public, max-age=604800'  # Cache por 7 días
+        response.headers['Cache-Control'] = 'public, max-age=604800'
     return response
 
-# Creación de estructura de directorios necesaria
-for folder in ['uploads', 'reports']:  # Carpetas para archivos subidos y reportes generados
+# Creación de directorios necesarios
+for folder in ['uploads', 'reports']:
     if not os.path.exists(folder):
         os.makedirs(folder)
 
-# Inicialización de bases de datos (solo si no existen)
+# Inicialización de bases de datos
 if not os.path.exists(app.config['USER_DB']):
-    init_user_db(app.config['USER_DB'])  # Crea la base de datos de usuarios
+    init_user_db(app.config['USER_DB'])
 if not os.path.exists(app.config['NORM_DB']):
-    init_normative_db(app.config['NORM_DB'])  # Crea la base de datos de normativas
+    init_normative_db(app.config['NORM_DB'])
 
 # Registro del módulo de autenticación
-app.register_blueprint(auth_bp, url_prefix='/auth')  # Todas las rutas de auth comenzarán con /auth
+app.register_blueprint(auth_bp, url_prefix='/auth')
 
-# Middleware de autenticación
+# Middleware para cada solicitud: establece idioma y verifica autenticación
 @app.before_request
-def check_auth():
-    """Verifica que el usuario esté autenticado antes de acceder a rutas protegidas"""
-    public_routes = ['auth.login', 'auth.logout', 'static']  # Rutas que no requieren autenticación
-    if request.endpoint and not any(request.endpoint.startswith(route) for route in public_routes):
-        if 'user_id' not in session:  # Si no hay sesión activa
-            return redirect(url_for('auth.login'))  # Redirige al login
+def before_request_handler():
+    # 1. Establecer el idioma para la solicitud actual
+    g.locale = get_locale()
+    print(f"[LOCALE] g.locale set to: {g.locale}")
 
-# Rutas principales de la aplicación
+    # 2. Verificar autenticación en rutas protegidas
+    public_routes = ['auth.login', 'auth.logout', 'static', 'change_language']
+    if request.endpoint and not any(request.endpoint.startswith(route) for route in public_routes):
+        if 'user_id' not in session:
+            flash('Por favor, inicia sesión para acceder a esta página.', 'warning')
+            return redirect(url_for('auth.login'))
 
 @app.route('/')
 def index():
-    """Ruta raíz: Redirige al usuario a la página de login"""
     return redirect(url_for('auth.login'))
 
 @app.route('/dashboard')
 def dashboard():
-    """Dashboard principal:
-    - Muestra lista de proyectos del usuario
-    - Punto de entrada principal después del login
-    TODO: Implementar obtención real de proyectos desde la base de datos
-    """
     proyectos = [
-        {   # Datos de ejemplo - reemplazar con datos reales de BD
+        {
             'id': 1,
             'nombre': 'Proyecto Demo',
             'usuario': session.get('username'),
             'fecha_creacion': '2024-01-01'
         }
     ]
-    return render_template('dashboard.html', proyectos=proyectos)
+    return render_template('dashboard.html', proyectos=proyectos, template_name='dashboard.html')
 
 @app.route('/proyecto/<int:proyecto_id>')
 def proyecto(proyecto_id):
-    """Vista detallada de un proyecto específico:
-    - Muestra información detallada del proyecto
-    - Permite acceder a funciones de cálculo y exportación
-    
-    Args:
-        proyecto_id (int): Identificador único del proyecto
-    
-    TODO: Implementar obtención real de datos del proyecto desde la base de datos
-    """
-    proyecto = {   # Datos de ejemplo - reemplazar con datos reales de BD
+    proyecto = {
         'id': proyecto_id,
         'nombre': f'Proyecto {proyecto_id}',
         'usuario': session.get('username'),
         'fecha_creacion': '2024-01-01'
     }
-    return render_template('proyecto.html', proyecto=proyecto)
-
-
+    return render_template('proyecto.html', proyecto=proyecto,templete_name='proyecto.html')
 
 # Ruta para cambiar el idioma
-@app.route('/change_lang/<lang>')
+@app.route('/change_language/<lang>')
 def change_language(lang):
+    print(f"Changing language to: {lang}")
     if lang in app.config['BABEL_SUPPORTED_LOCALES']:
         session['lang'] = lang
-        # Forzar recarga de la página actual para aplicar el nuevo idioma
-        return redirect(request.referrer or url_for('dashboard'))
+        print(f"Language set in session: {session['lang']}")
+        if request.referrer:
+            return redirect(request.referrer)
+        return redirect(url_for('dashboard'))
+    print(f"Invalid language requested: {lang}")
     return redirect(url_for('dashboard'))
 
 
@@ -305,11 +297,4 @@ def export_results(proyecto_id, format):
     return redirect(url_for('proyecto', proyecto_id=proyecto_id))
 
 if __name__ == '__main__':
-    """Punto de entrada principal de la aplicación.
-    
-    Inicia el servidor de desarrollo de Flask con las siguientes características:
-    - Modo debug activado para desarrollo
-    - Recarga automática cuando se detectan cambios en el código
-    - Mensajes detallados de error en caso de excepciones
-    """
-    app.run(debug=True)  # debug=True solo para desarrollo, cambiar a False en producción
+    app.run(debug=True)

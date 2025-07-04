@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ session.get('lang', 'es') }}" data-bs-theme="light">
+<html lang="{{ g.locale }}" data-bs-theme="light">
 
 <head>
   <meta charset="utf-8">
@@ -33,6 +33,14 @@
             <a class="nav-link" href="{{ url_for('dashboard') }}">
               <i class="fas fa-home me-1"></i>{{ _('Dashboard') }}
             </a>
+            <!-- Enlace al panel de administración (SOLO PARA ADMINS) -->
+            {% if session.user_role == 'Administrador' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin.manage_users') }}">
+              <i class="fas fa-user-shield me-1"></i>{{ _('Admin Usuarios') }}
+            </a>
+          </li>
+          {% endif %}
           </li>
         </ul>
 
@@ -40,20 +48,19 @@
         <ul class="navbar-nav">
           <!-- Selector de idioma -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="languageMenuButton" data-bs-toggle="dropdown"
+              aria-expanded="false">
               <i class="fas fa-globe me-1"></i>{{ _('Idioma') }}
             </a>
-            <ul class="dropdown-menu dropdown-menu-end">
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageMenuButton">
+              {% for lang_code, lang_name in config['LANGUAGES'].items() %}
               <li>
-                <a class="dropdown-item" href="{{ url_for('change_language', lang='es') }}">
-                  <i class="fas fa-flag me-1"></i>Español
+                <a class="dropdown-item {% if g.locale == lang_code %}active{% endif %}"
+                  href="{{ url_for('change_language', lang=lang_code) }}">
+                  <i class="fas fa-flag me-1"></i>{{ lang_name }}
                 </a>
               </li>
-              <li>
-                <a class="dropdown-item" href="{{ url_for('change_language', lang='en') }}">
-                  <i class="fas fa-flag me-1"></i>English
-                </a>
-              </li>
+              {% endfor %}
             </ul>
           </li>
           <!-- Selector de tema -->
@@ -158,6 +165,5 @@
   <!-- Scripts específicos de la página -->
   {% block scripts %}{% endblock %}
 </body>
-
 
 </html>
