@@ -4,3 +4,4 @@ pandas>=1.2
 openpyxl>=3.0
 reportlab>=3.6
 werkzeug>=2.0
+Flask-Babel>=4.0.0

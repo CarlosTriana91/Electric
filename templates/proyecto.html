@@ -20,10 +20,10 @@
   </div>
   <div class="btn-group">
     <button class="btn btn-outline-primary" onclick="window.print()">
-      <i class="fas fa-print me-1"></i>Imprimir
+      <i class="fas fa-print me-1"></i>{{ _('Imprimir') }}
     </button>
     <button class="btn btn-outline-success" id="exportExcel">
-      <i class="fas fa-file-excel me-1"></i>Exportar
+      <i class="fas fa-file-excel me-1"></i>{{ _('Exportar') }}
     </button>
   </div>
 </div>
@@ -41,17 +41,17 @@
 <ul class="nav nav-tabs mb-4" id="projectTabs" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" id="upload-tab" data-bs-toggle="tab" href="#upload">
-      <i class="fas fa-upload me-1"></i>Cargar Datos
+      <i class="fas fa-upload me-1"></i>{{ _('Cargar Datos') }}
     </a>
   </li>
   <li class="nav-item">
     <a class="nav-link" id="params-tab" data-bs-toggle="tab" href="#params">
-      <i class="fas fa-sliders-h me-1"></i>Parámetros
+      <i class="fas fa-sliders-h me-1"></i>{{ _('Parámetros') }}
     </a>
   </li>
   <li class="nav-item">
     <a class="nav-link" id="results-tab" data-bs-toggle="tab" href="#results">
-      <i class="fas fa-chart-bar me-1"></i>Resultados
+      <i class="fas fa-chart-bar me-1"></i>{{ _('Resultados') }}
     </a>
   </li>
 </ul>
@@ -70,7 +70,7 @@
               novalidate>
           <div class="mb-4">
             <label class="form-label">
-              <i class="fas fa-file-excel me-1"></i>Archivo Excel
+              <i class="fas fa-file-excel me-1"></i>{{ _('Archivo Excel') }}
             </label>
             <div class="input-group">
               <input type="file" 
@@ -79,19 +79,19 @@
                      accept=".xlsx"
                      required>
               <button class="btn btn-primary" type="submit">
-                <i class="fas fa-upload me-1"></i>Subir
+                <i class="fas fa-upload me-1"></i>{{ _('Subir') }}
               </button>
             </div>
             <div class="form-text">
-              <i class="fas fa-info-circle me-1"></i>El archivo debe contener las siguientes columnas:
+              <i class="fas fa-info-circle me-1"></i>{{ _('El archivo debe contener las siguientes columnas:') }}
             </div>
             <div class="table-responsive mt-2">
               <table class="table table-sm table-bordered">
                 <thead class="table-light">
                   <tr>
-                    <th>Columna</th>
-                    <th>Descripción</th>
-                    <th>Tipo</th>
+                    <th>{{ _('Columna') }}</th>
+                    <th>{{ _('Descripción') }}</th>
+                    <th>{{ _('Tipo') }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -146,7 +146,7 @@
           <div class="row g-3">
             <div class="col-md-4">
               <label class="form-label">
-                <i class="fas fa-thermometer-half me-1"></i>Temperatura ambiente
+                <i class="fas fa-thermometer-half me-1"></i>{{ _('Temperatura ambiente') }}
               </label>
               <div class="input-group">
                 <input type="number" 
@@ -163,7 +163,7 @@
             </div>
             <div class="col-md-4">
               <label class="form-label">
-                <i class="fas fa-layer-group me-1"></i>Nº conductores
+                <i class="fas fa-layer-group me-1"></i>{{ _('Nº conductores') }}
               </label>
               <input type="number" 
                      name="num_cond" 
@@ -177,7 +177,7 @@
             </div>
             <div class="col-md-4">
               <label class="form-label">
-                <i class="fas fa-bolt me-1"></i>Voltaje sistema
+                <i class="fas fa-bolt me-1"></i>{{ _('Voltaje sistema') }}
               </label>
               <div class="input-group">
                 <input type="number" 
@@ -194,7 +194,7 @@
             </div>
           </div>
           <button class="btn btn-primary mt-4" type="submit">
-            <i class="fas fa-calculator me-1"></i>Ejecutar Cálculo
+            <i class="fas fa-calculator me-1"></i>{{ _('Ejecutar Cálculo') }}
           </button>
         </form>
       </div>
@@ -210,13 +210,13 @@
           <table class="table table-hover mb-0" id="resultsTable">
             <thead class="table-light">
               <tr>
-                <th>ID</th>
-                <th>Descripción</th>
-                <th>Corriente (A)</th>
-                <th>Calibre</th>
-                <th>%Caída</th>
-                <th>Canalización</th>
-                <th>Estado</th>
+                <th>{{ _('ID') }}</th>
+                <th>{{ _('Descripción') }}</th>
+                <th>{{ _('Corriente (A)') }}</th>
+                <th>{{ _('Calibre') }}</th>
+                <th>{{ _('%Caída') }}</th>
+                <th>{{ _('Canalización') }}</th>
+                <th>{{ _('Estado') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -242,11 +242,11 @@
                 <td>{{ r.Canalizacion }}</td>
                 <td>
                   {% if r.Caida_Tension <= 3 %}
-                    <span class="badge bg-success">OK</span>
+                    <span class="badge bg-success">{{ _('OK') }}</span>
                   {% elif r.Caida_Tension <= 5 %}
-                    <span class="badge bg-warning">Revisar</span>
+                    <span class="badge bg-warning">{{ _('Revisar') }}</span>
                   {% else %}
-                    <span class="badge bg-danger">Fuera de rango</span>
+                    <span class="badge bg-danger">{{ _('Fuera de rango') }}</span>
                   {% endif %}
                 </td>
               </tr>
@@ -259,8 +259,8 @@
     {% else %}
     <div class="text-center py-5 text-muted">
       <i class="fas fa-chart-bar fa-3x mb-3"></i>
-      <p>No hay resultados disponibles.</p>
-      <p>Completa los pasos anteriores para ver los resultados aquí.</p>
+      <p>{{ _('No hay resultados disponibles.') }}</p>
+      <p>{{ _('Completa los pasos anteriores para ver los resultados aquí.') }}</p>
     </div>
     {% endif %}
   </div>

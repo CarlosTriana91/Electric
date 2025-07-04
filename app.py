@@ -2,6 +2,7 @@
 # Flask: Framework web para Python
 # Módulos propios: auth, db_init, calculations, reporting, exports
 from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify, send_from_directory
+from flask_babel import Babel, gettext as _
 from flask_compress import Compress  # Para comprimir respuestas HTTP y mejorar el rendimiento
 from datetime import timedelta
 
@@ -20,6 +21,31 @@ from datetime import datetime  # Manejo de fechas y horas
 # Inicialización y configuración de la aplicación Flask
 app = Flask(__name__)
 app.secret_key = 'tu_clave_secreta_aqui'  # Clave para sesiones y cookies - IMPORTANTE: Cambiar en producción
+
+# Selector de idioma 
+def get_locale():
+    # 1) Si el usuario eligió un idioma (guardado en session), úsalo:
+    if 'lang' in session:
+        print(f"Using session language: {session['lang']}")  # Debug print
+        return session['lang']
+    # 2) Si en la URL viene ?lang=xx y está soportado, guárdalo y úsalo:
+    lang = request.args.get('lang')
+    if lang in app.config['BABEL_SUPPORTED_LOCALES']:
+        print(f"Using URL language: {lang}")  # Debug print
+        session['lang'] = lang
+        return lang
+    # 3) Finalmente, usa el mejor match del navegador:
+    best_match = request.accept_languages.best_match(
+        app.config['BABEL_SUPPORTED_LOCALES']
+    )
+    print(f"Using browser language: {best_match}")  # Debug print
+    return best_match
+
+# Configuración de Babel
+app.config['BABEL_DEFAULT_LOCALE']    = 'es'               # idioma por defecto
+app.config['BABEL_SUPPORTED_LOCALES'] = ['es', 'en']       # idiomas soportados
+
+babel = Babel(app, locale_selector=get_locale)
 
 # Configuración de rutas de bases de datos
 app.config['USER_DB'] = os.path.join('database', 'users.db')  # Base de datos de usuarios
@@ -58,7 +84,7 @@ app.register_blueprint(auth_bp, url_prefix='/auth')  # Todas las rutas de auth c
 def check_auth():
     """Verifica que el usuario esté autenticado antes de acceder a rutas protegidas"""
     public_routes = ['auth.login', 'auth.logout', 'static']  # Rutas que no requieren autenticación
-    if not any(request.endpoint.startswith(route) for route in public_routes):
+    if request.endpoint and not any(request.endpoint.startswith(route) for route in public_routes):
         if 'user_id' not in session:  # Si no hay sesión activa
             return redirect(url_for('auth.login'))  # Redirige al login
 
@@ -104,6 +130,18 @@ def proyecto(proyecto_id):
         'fecha_creacion': '2024-01-01'
     }
     return render_template('proyecto.html', proyecto=proyecto)
+
+
+
+# Ruta para cambiar el idioma
+@app.route('/change_lang/<lang>')
+def change_language(lang):
+    if lang in app.config['BABEL_SUPPORTED_LOCALES']:
+        session['lang'] = lang
+        # Forzar recarga de la página actual para aplicar el nuevo idioma
+        return redirect(request.referrer or url_for('dashboard'))
+    return redirect(url_for('dashboard'))
+
 
 # Subir archivo Excel
 @app.route('/proyecto/<int:proyecto_id>/upload', methods=['POST'])

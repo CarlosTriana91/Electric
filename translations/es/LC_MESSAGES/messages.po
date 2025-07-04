@@ -1,0 +1,248 @@
+# Spanish translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-07-03 18:50-0500\n"
+"PO-Revision-Date: 2025-07-03 14:30-0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: templates/base.html:7
+msgid "Mi App Cableado"
+msgstr "Mi App Cableado"
+
+#: templates/base.html:24
+msgid "Cableado Eléctrico"
+msgstr "Cableado Eléctrico"
+
+#: templates/base.html:34 templates/dashboard.html:2 templates/dashboard.html:5
+msgid "Dashboard"
+msgstr "Panel de Control"
+
+#: templates/base.html:44
+msgid "Idioma"
+msgstr "Idioma"
+
+#: templates/base.html:83
+msgid "Cerrar Sesión"
+msgstr "Cerrar Sesión"
+
+#: templates/base.html:99
+msgid "Inicio"
+msgstr "Inicio"
+
+#: templates/base.html:131
+msgid "Cargando..."
+msgstr "Cargando..."
+
+#: templates/dashboard.html:13
+msgid "Proyectos"
+msgstr "Proyectos"
+
+#: templates/dashboard.html:16
+msgid "Nuevo Proyecto"
+msgstr "Nuevo Proyecto"
+
+#: templates/dashboard.html:26
+msgid "Buscar proyecto..."
+msgstr "Buscar proyecto..."
+
+#: templates/dashboard.html:31
+msgid "Todos los usuarios"
+msgstr "Todos los usuarios"
+
+#: templates/dashboard.html:39
+msgid "Todas las fechas"
+msgstr "Todas las fechas"
+
+#: templates/dashboard.html:40
+msgid "Hoy"
+msgstr "Hoy"
+
+#: templates/dashboard.html:41
+msgid "Esta semana"
+msgstr "Esta semana"
+
+#: templates/dashboard.html:42
+msgid "Este mes"
+msgstr "Este mes"
+
+#: templates/dashboard.html:47
+msgid "Resetear"
+msgstr "Resetear"
+
+#: templates/dashboard.html:57 templates/proyecto.html:213
+msgid "ID"
+msgstr "ID"
+
+#: templates/dashboard.html:58
+msgid "Nombre"
+msgstr "Nombre"
+
+#: templates/dashboard.html:59
+msgid "Creado por"
+msgstr "Creado por"
+
+#: templates/dashboard.html:60
+msgid "Fecha"
+msgstr "Fecha"
+
+#: templates/dashboard.html:61 templates/proyecto.html:219
+msgid "Estado"
+msgstr "Estado"
+
+#: templates/dashboard.html:62
+msgid "Acciones"
+msgstr "Acciones"
+
+#: templates/dashboard.html:83
+msgid "Completado"
+msgstr "Completado"
+
+#: templates/dashboard.html:85
+msgid "En Proceso"
+msgstr "En Proceso"
+
+#: templates/dashboard.html:87
+msgid "Pendiente"
+msgstr "Pendiente"
+
+#: templates/dashboard.html:111
+msgid "Confirmar eliminación"
+msgstr "Confirmar eliminación"
+
+#: templates/dashboard.html:115
+msgid "¿Estás seguro de que deseas eliminar el proyecto"
+msgstr "¿Estás seguro de que deseas eliminar el proyecto"
+
+#: templates/dashboard.html:119
+msgid "Cancelar"
+msgstr "Cancelar"
+
+#: templates/dashboard.html:124
+msgid "Eliminar"
+msgstr "Eliminar"
+
+#: templates/dashboard.html:138
+msgid "No hay proyectos aún."
+msgstr "No hay proyectos aún."
+
+#: templates/dashboard.html:140
+msgid "Crear primer proyecto"
+msgstr "Crear primer proyecto"
+
+#: templates/login.html:4 templates/login.html:8 templates/login.html:68
+msgid "Iniciar Sesión"
+msgstr "Iniciar Sesión"
+
+#: templates/login.html:24
+msgid "Bienvenido"
+msgstr "Bienvenido"
+
+#: templates/login.html:25
+msgid "Inicia sesión para continuar"
+msgstr "Inicia sesión para continuar"
+
+#: templates/login.html:37
+msgid "Usuario"
+msgstr "Usuario"
+
+#: templates/login.html:49
+msgid "Contraseña"
+msgstr "Contraseña"
+
+#: templates/login.html:60
+msgid "Recordar sesión"
+msgstr "Recordar sesión"
+
+#: templates/login.html:77
+msgid "¿Olvidaste tu contraseña?"
+msgstr "¿Olvidaste tu contraseña?"
+
+#: templates/login.html:88
+msgid "¿Necesitas ayuda? Contacta al administrador"
+msgstr "¿Necesitas ayuda? Contacta al administrador"
+
+#: templates/login.html:101
+msgid "Recuperar Contraseña"
+msgstr "Recuperar Contraseña"
+
+#: templates/login.html:106
+msgid "Por favor, contacta al administrador del sistema para restablecer tu contraseña."
+msgstr "Por favor, contacta al administrador del sistema para restablecer tu contraseña."
+
+#: templates/proyecto.html:23
+msgid "Imprimir"
+msgstr "Imprimir"
+
+#: templates/proyecto.html:26
+msgid "Exportar"
+msgstr "Exportar"
+
+#: templates/proyecto.html:44
+msgid "Cargar Datos"
+msgstr "Cargar Datos"
+
+#: templates/proyecto.html:49
+msgid "Parámetros"
+msgstr "Parámetros"
+
+#: templates/proyecto.html:54
+msgid "Resultados"
+msgstr "Resultados"
+
+#: templates/proyecto.html:73
+msgid "Archivo Excel"
+msgstr "Archivo Excel"
+
+#: templates/proyecto.html:82
+msgid "Subir"
+msgstr "Subir"
+
+#: templates/proyecto.html:86
+msgid "El archivo debe contener las siguientes columnas:"
+msgstr "El archivo debe contener las siguientes columnas:"
+
+#: templates/proyecto.html:92
+msgid "Columna"
+msgstr "Columna"
+
+#: templates/proyecto.html:93 templates/proyecto.html:214
+msgid "Descripción"
+msgstr "Descripción"
+
+#: templates/proyecto.html:94
+msgid "Tipo"
+msgstr "Tipo"
+
+#: templates/proyecto.html:149
+msgid "Temperatura ambiente"
+msgstr "Temperatura ambiente"
+
+#: templates/proyecto.html:166
+msgid "Nº conductores"
+msgstr "Nº conductores"
+
+#: templates/proyecto.html:180
+msgid "Voltaje sistema"
+msgstr "Voltaje sistema"
+
+#: templates/proyecto.html:197
+msgid "Ejecutar Cálculo"
+msgstr "Ejecutar Cálculo"
+
+#: templates/proyecto.html:215
+msgid "Corriente (A)"
+msgstr "Corriente (A)"
+
