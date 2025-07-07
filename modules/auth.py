@@ -66,17 +66,18 @@ def login():
         conn = get_db()
         c = conn.cursor()
         c.execute(
-            'SELECT password_hash, role FROM users WHERE username = ?',
+            'SELECT id, password_hash, role FROM users WHERE username = ?',
             (user,)  # Previene inyección SQL usando parámetros
         )
         row = c.fetchone()
         conn.close()
 
         # Validar credenciales y crear sesión
-        if row and check_password_hash(row[0], pw):
+        if row and check_password_hash(row[1], pw):
             # Establecer datos de sesión
+            session['user_id'] = row[0] # ID del usuario
             session['username'] = user    # Identificador del usuario
-            session['role']     = row[1]  # Rol para control de acceso
+            session['role']     = row[2]  # Rol para control de acceso
             return redirect(url_for('dashboard'))
 
         # Notificar error de autenticación
