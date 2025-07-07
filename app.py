@@ -1,6 +1,6 @@
 # Importaciones necesarias para la aplicación
 # 1. INICIALIZACIÓN DE LA APLICACIÓN
-from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify, send_from_directory, g
+from flask import (Flask, render_template, redirect, url_for, request, flash, session, jsonify, send_from_directory, g
 from flask_babel import Babel, gettext as _
 from flask_compress import Compress
 from datetime import timedelta

@@ -22,25 +22,18 @@ from flask import (
     current_app       # Para acceder a la configuración global
 )
 import sqlite3  # Base de datos ligera para almacenar usuarios
-from werkzeug.security import (
-    generate_password_hash,  # Genera hash seguro de contraseñas
-    check_password_hash      # Verifica contraseñas contra su hash
-)
 import bcrypt
 
 # Blueprint de autenticación
-auth_bp = Blueprint('auth', __name__,template_folder='../../templates/auth') # Ruta correcta a los templates
+auth_bp = Blueprint('auth', __name__,template_folder='../../templates/auth', url_prefix='/auth') # Ruta correcta a los templates
+
 
 def get_db():
-    """Establece conexión con la base de datos de usuarios.
-    
-    Returns:
-        sqlite3.Connection: Conexión a la base de datos users.db
-    
-    Note:
-        Utiliza la configuración global de la aplicación para la ruta de la BD
-    """
-    return sqlite3.connect(current_app.config['USER_DB'])
+   """Establece conexión con la base de datos de usuarios."""
+    conn = sqlite3.connect(current_app.config['USER_DB'])
+    conn.row_factory = sqlite3.Row
+    return conn
+
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -66,11 +59,8 @@ def login():
        
         # Verificar credenciales en la base de datos
         conn = get_db()
-        conn.row_factory = sqlite3.Row 
-        user = conn.execute(
-            'SELECT * FROM users WHERE username = ?', (username,)
-        ).fetchone()
-        conn.close()
+        user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+         conn.close()
 
 
         # Validar credenciales y crear sesión
@@ -110,7 +100,6 @@ def logout():
     # Restaura el idioma en la nueva sesión
     if lang:
         session['lang'] = lang
-        print(f"[LOGOUT] Language '{lang}' preserved after logout.")
-
+        
     flash('Has cerrado sesión exitosamente.', 'success')
     return redirect(url_for('auth.login'))
