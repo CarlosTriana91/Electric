@@ -30,9 +30,9 @@ auth_bp = Blueprint('auth', __name__,template_folder='../../templates/auth', url
 
 def get_db():
    """Establece conexión con la base de datos de usuarios."""
-    conn = sqlite3.connect(current_app.config['USER_DB'])
-    conn.row_factory = sqlite3.Row
-    return conn
+   conn = sqlite3.connect(current_app.config['USER_DB'])
+   conn.row_factory = sqlite3.Row
+   return conn
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -60,7 +60,7 @@ def login():
         # Verificar credenciales en la base de datos
         conn = get_db()
         user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
-         conn.close()
+        conn.close()
 
 
         # Validar credenciales y crear sesión
