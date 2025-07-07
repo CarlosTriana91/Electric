@@ -1,4 +1,5 @@
 # Importaciones necesarias para la aplicación
+# 1. INICIALIZACIÓN DE LA APLICACIÓN
 from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify, send_from_directory, g
 from flask_babel import Babel, gettext as _
 from flask_compress import Compress
@@ -21,8 +22,9 @@ from datetime import datetime
 # Inicialización y configuración de la aplicación Flask
 app = Flask(__name__)
 app.secret_key = 'tu_clave_secreta_aqui'
-app.register_blueprint(admin_bp)
 
+
+# 2. CONFIGURACIÓN CENTRALIZADA
 
 # Configuración de Jinja2 y Babel
 app.jinja_env.add_extension('jinja2.ext.i18n')
@@ -48,38 +50,25 @@ def get_locale():
     # Finalmente, usa el idioma por defecto
     return app.config['BABEL_DEFAULT_LOCALE']
 
-# Inicialización de Babel
-babel = Babel(app, locale_selector=get_locale)
-
 # Configuración de rutas de bases de datos
 app.config['USER_DB'] = os.path.join('database', 'users.db')
 app.config['NORM_DB'] = os.path.join('database', 'normative_data.db')
 
-# Activar compresión de respuestas HTTP
-Compress(app)
-
 # Configuración de caché para archivos estáticos
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = timedelta(days=7)
 
-@app.after_request
-def add_header(response):
-    if 'Cache-Control' not in response.headers:
-        response.headers['Cache-Control'] = 'public, max-age=604800'
-    return response
+# 3. INICIALIZACIÓN DE EXTENSIONES
+# Inicialización de Babel
+babel = Babel(app, locale_selector=get_locale)
+Compress(app) # Activar compresión de respuestas HTTP
 
-# Creación de directorios necesarios
-for folder in ['uploads', 'reports']:
-    if not os.path.exists(folder):
-        os.makedirs(folder)
-
-# Inicialización de bases de datos
-if not os.path.exists(app.config['USER_DB']):
-    init_user_db(app.config['USER_DB'])
-if not os.path.exists(app.config['NORM_DB']):
-    init_normative_db(app.config['NORM_DB'])
-
+# 4. REGISTRO DE BLUEPRINTS
 # Registro del módulo de autenticación
-app.register_blueprint(auth_bp, url_prefix='/auth')
+app.register_blueprint(auth_bp)
+app.register_blueprint(admin_bp)
+
+# 5. MIDDLEWARE Y HANDLERS GLOBALES
+
 
 # Middleware para cada solicitud: establece idioma y verifica autenticación
 @app.before_request
@@ -94,13 +83,24 @@ def before_request_handler():
         if 'user_id' not in session:
             flash('Por favor, inicia sesión para acceder a esta página.', 'warning')
             return redirect(url_for('auth.login'))
+@app.after_request
+def add_header(response):
+    if 'Cache-Control' not in response.headers:
+        response.headers['Cache-Control'] = 'public, max-age=604800'
+    return response
+
+# 6. RUTAS PRINCIPALES
 
 @app.route('/')
 def index():
+    if 'user_id' in session:
+        return redirect(url_for('dashboard'))
     return redirect(url_for('auth.login'))
 
 @app.route('/dashboard')
 def dashboard():
+    if 'user_id' not in session:
+     return redirect(url_for('auth.login'))
     proyectos = [
         {
             'id': 1,
@@ -119,7 +119,7 @@ def proyecto(proyecto_id):
         'usuario': session.get('username'),
         'fecha_creacion': '2024-01-01'
     }
-    return render_template('proyecto.html', proyecto=proyecto,templete_name='proyecto.html')
+    return render_template('proyecto.html', proyecto=proyecto,template_name='proyecto.html')
 
 # Ruta para cambiar el idioma
 @app.route('/change_language/<lang>')
@@ -295,6 +295,21 @@ def export_results(proyecto_id, format):
         flash(f'Error al exportar: {str(e)}', 'error')
     
     return redirect(url_for('proyecto', proyecto_id=proyecto_id))
+
+
+# 7. INICIALIZACIÓN DE LA APP Y DATOS
+# Se añade el bloque with app.app_context()
+with app.app_context():
+    # Este código ahora se ejecuta en un entorno seguro.
+    for folder in ['uploads', 'reports', 'database']:
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+    
+    if not os.path.exists(app.config['USER_DB']):
+        init_user_db(app.config['USER_DB'])
+    if not os.path.exists(app.config['NORM_DB']):
+        init_normative_db(app.config['NORM_DB'])
+        
 
 if __name__ == '__main__':
     app.run(debug=True)

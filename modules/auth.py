@@ -26,9 +26,10 @@ from werkzeug.security import (
     generate_password_hash,  # Genera hash seguro de contraseñas
     check_password_hash      # Verifica contraseñas contra su hash
 )
+import bcrypt
 
 # Blueprint de autenticación
-auth_bp = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__,template_folder='../../templates/auth') # Ruta correcta a los templates
 
 def get_db():
     """Establece conexión con la base de datos de usuarios.
@@ -59,32 +60,34 @@ def login():
     """
     if request.method == 'POST':
         # Obtener credenciales del formulario
-        user = request.form['username']  # Nombre de usuario
-        pw   = request.form['password']  # Contraseña sin procesar
-
+        username = request.form['username'] # Nombre de usuario
+        # Es importante codificar la contraseña que viene del formulario
+        password = request.form['password'].encode('utf-8')
+       
         # Verificar credenciales en la base de datos
         conn = get_db()
-        c = conn.cursor()
-        c.execute(
-            'SELECT id, password_hash, role FROM users WHERE username = ?',
-            (user,)  # Previene inyección SQL usando parámetros
-        )
-        row = c.fetchone()
+        conn.row_factory = sqlite3.Row 
+        user = conn.execute(
+            'SELECT * FROM users WHERE username = ?', (username,)
+        ).fetchone()
         conn.close()
 
+
         # Validar credenciales y crear sesión
-        if row and check_password_hash(row[1], pw):
-            # Establecer datos de sesión
-            session['user_id'] = row[0] # ID del usuario
-            session['username'] = user    # Identificador del usuario
-            session['role']     = row[2]  # Rol para control de acceso
+         # Se usa bcrypt.checkpw para ser consistente con la creación de usuarios
+        # La contraseña de la BD (user['password']) ya está en bytes.
+        if user and bcrypt.checkpw(password, user['password']):
+            session.clear()
+            session['user_id'] = user['id']
+            session['username'] = user['username']
+            session['user_role'] = user['role']
+            
+            flash('Inicio de sesión exitoso.', 'success')
             return redirect(url_for('dashboard'))
-
-        # Notificar error de autenticación
-        flash('Usuario o contraseña incorrectos', 'danger')
-
-    # Mostrar formulario de login
-    return render_template('login.html')
+        else:
+            flash('Usuario o contraseña incorrectos.', 'danger')
+            
+    return render_template('login.html', template_name='auth/login.html')
 
 @auth_bp.route('/logout')
 def logout():

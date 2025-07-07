@@ -4,6 +4,7 @@ from flask import (Blueprint, render_template, request, redirect,
                    url_for, flash, session)
 import sqlite3
 import bcrypt
+from functools import wraps
 
 # Crear un Blueprint para las rutas de administración
 # Esto nos permite organizar las rutas de admin en un solo lugar.
