@@ -1,9 +1,14 @@
 import sqlite3
 import math
 
+from flask import current_app
+
 def get_db_connection():
     """Establece conexión con la base de datos normativa."""
-    conn = sqlite3.connect('database/normative_data.db')
+    # Usar la configuración de la app para obtener la ruta de la BD
+    # Esto hace que el módulo sea más reutilizable y menos propenso a errores de ruta
+    db_path = current_app.config['NORM_DB']
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
 

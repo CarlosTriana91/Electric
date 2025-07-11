@@ -25,12 +25,12 @@ import sqlite3  # Base de datos ligera para almacenar usuarios
 import bcrypt
 
 # Blueprint de autenticación
-auth_bp = Blueprint('auth', __name__,template_folder='../../templates/auth', url_prefix='/auth') # Ruta correcta a los templates
-
+auth_bp = Blueprint('auth', __name__, url_prefix='/auth', template_folder='templates')
 
 def get_db():
    """Establece conexión con la base de datos de usuarios."""
-   conn = sqlite3.connect(current_app.config['USER_DB'])
+   db_path = current_app.config['USER_DB']
+   conn = sqlite3.connect(db_path)
    conn.row_factory = sqlite3.Row
    return conn
 
@@ -70,7 +70,8 @@ def login():
             session.clear()
             session['user_id'] = user['id']
             session['username'] = user['username']
-            session['user_role'] = user['role']
+            session['role'] = user['role']
+
             
             flash('Inicio de sesión exitoso.', 'success')
             return redirect(url_for('dashboard'))

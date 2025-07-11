@@ -75,23 +75,29 @@
                         <tbody>
                             {% for user in users %}
                             <tr>
-                                <td><a href="#" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="{{ user.id }}" data-username="{{ user.username }}" data-email="{{ user.email }}">{{ user.username }}</a></td>
-                                <td><a href="#" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="{{ user.id }}" data-username="{{ user.username }}" data-email="{{ user.email }}">{{ user.email }}</a></td>
-                                <td>
-                                    <form method="POST" action="{{ url_for('admin.manage_users') }}" class="d-inline-flex align-items-center">
-                                        <input type="hidden" name="user_id" value="{{ user.id }}">
-                                        <select class="form-select form-select-sm me-2" name="role" onchange="this.form.submit()">
+                                <form method="POST" action="{{ url_for('admin.manage_users') }}">
+                                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" name="username" value="{{ user.username }}" required>
+                                    </td>
+                                    <td>
+                                        <input type="email" class="form-control form-control-sm" name="email" value="{{ user.email }}" required>
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-select-sm" name="role">
                                             <option value="Ingeniero" {% if user.role == 'Ingeniero' %}selected{% endif %}>{{ _('Ingeniero') }}</option>
                                             <option value="Consultor" {% if user.role == 'Consultor' %}selected{% endif %}>{{ _('Consultor') }}</option>
                                             <option value="Administrador" {% if user.role == 'Administrador' %}selected{% endif %}>{{ _('Administrador') }}</option>
                                         </select>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form method="POST" action="{{ url_for('admin.delete_user', user_id=user.id) }}" onsubmit="return confirm('{{ _('¿Estás seguro de que quieres eliminar a este usuario?') }}');" class="d-inline">
-                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-save"></i></button>
+                                        <a href="#" class="btn btn-danger btn-sm" onclick="event.preventDefault(); if(confirm('{{ _('¿Estás seguro de que quieres eliminar a este usuario?') }}')) document.getElementById('delete-form-{{ user.id }}').submit();">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                </form>
+                                <form id="delete-form-{{ user.id }}" method="POST" action="{{ url_for('admin.delete_user', user_id=user.id) }}" style="display: none;"></form>
                             </tr>
                             {% else %}
                             <tr>
@@ -105,58 +111,4 @@
         </div>
     </div>
 </div>
-
-<!-- Modal para editar usuario -->
-<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editUserModalLabel">{{ _('Editar Usuario') }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form id="editUserForm" method="POST" action="">
-        <div class="modal-body">
-          <input type="hidden" name="user_id" id="edit-user-id">
-          <div class="mb-3">
-            <label for="edit-username" class="form-label">{{ _('Nombre de Usuario') }}</label>
-            <input type="text" class="form-control" id="edit-username" name="username" required>
-          </div>
-          <div class="mb-3">
-            <label for="edit-email" class="form-label">{{ _('Correo Electrónico') }}</label>
-            <input type="email" class="form-control" id="edit-email" name="email" required>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cerrar') }}</button>
-          <button type="submit" class="btn btn-primary">{{ _('Guardar Cambios') }}</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-{% block scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var editUserModal = document.getElementById('editUserModal');
-    editUserModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget;
-        var userId = button.getAttribute('data-user-id');
-        var username = button.getAttribute('data-username');
-        var email = button.getAttribute('data-email');
-        
-        var modalForm = editUserModal.querySelector('#editUserForm');
-        var modalUserId = editUserModal.querySelector('#edit-user-id');
-        var modalUsername = editUserModal.querySelector('#edit-username');
-        var modalEmail = editUserModal.querySelector('#edit-email');
-        
-        modalForm.action = '/admin/users/' + userId + '/edit';
-        modalUserId.value = userId;
-        modalUsername.value = username;
-        modalEmail.value = email;
-    });
-});
-</script>
-{% endblock %}
-
 {% endblock %}

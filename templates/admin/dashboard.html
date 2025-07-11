@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
-{% block title %}{{ _('Dashboard') }}{% endblock %}
+
+{% block title %}{{ _('Panel de Administración') }}{% endblock %}
 
 {% block breadcrumb %}
-<li class="breadcrumb-item active">{{ _('Dashboard') }}</li>
+<li class="breadcrumb-item active">{{ _('Panel de Administración') }}</li>
 {% endblock %}
 
 {% block content %}
@@ -13,7 +14,8 @@
       <p class="lead">{{ _('Selecciona un módulo para empezar a trabajar.') }}</p>
     </div>
   </div>
-  <div class="row g-4">
+    
+      <div class="row g-4">
     <!-- Proyectos -->
     <div class="col-md-4">
       <a href="#" class="card text-center text-decoration-none h-100">
@@ -55,7 +57,6 @@
       </a>
     </div>
     <!-- Usuarios -->
-    {% if current_user.role == 'admin' %}
     <div class="col-md-4">
       <a href="{{ url_for('admin.manage_users') }}" class="card text-center text-decoration-none h-100">
         <div class="card-body">
@@ -65,7 +66,6 @@
         </div>
       </a>
     </div>
-    {% endif %}
   </div>
 </div>
 {% endblock %}

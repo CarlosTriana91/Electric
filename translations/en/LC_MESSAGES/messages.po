@@ -246,3 +246,43 @@ msgstr "Run Calculation"
 msgid "Corriente (A)"
 msgstr "Current (A)"
 
+#: templates/admin/users.html:2
+msgid "Gestión de Usuarios"
+msgstr "User Management"
+
+#: templates/admin/users.html:13
+msgid "Usuarios"
+msgstr "Users"
+
+#: templates/admin/users.html:16
+msgid "Nuevo Usuario"
+msgstr "New User"
+
+#: templates/admin/users.html:26
+msgid "Buscar usuario..."
+msgstr "Search user..."
+
+#: templates/admin/users.html:58
+msgid "Rol"
+msgstr "Role"
+
+#: templates/admin/users.html:83
+msgid "Admin"
+msgstr "Admin"
+
+#: templates/admin/users.html:85
+msgid "Usuario"
+msgstr "User"
+
+#: templates/admin/users.html:111
+msgid "¿Estás seguro de que deseas eliminar el usuario"
+msgstr "Are you sure you want to delete the user"
+
+#: templates/admin/users.html:138
+msgid "No hay usuarios aún."
+msgstr "No users yet."
+
+#: templates/admin/users.html:140
+msgid "Crear primer usuario"
+msgstr "Create first user"
+

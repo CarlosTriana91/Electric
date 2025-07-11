@@ -33,14 +33,30 @@
             <a class="nav-link" href="{{ url_for('dashboard') }}">
               <i class="fas fa-home me-1"></i>{{ _('Dashboard') }}
             </a>
-            <!-- Enlace al panel de administración (SOLO PARA ADMINS) -->
-            {% if session.user_role == 'Administrador' %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('admin.manage_users') }}">
-              <i class="fas fa-user-shield me-1"></i>{{ _('Admin Usuarios') }}
-            </a>
-          </li>
-          {% endif %}
+            {% if session.role == 'Administrador' %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('admin.manage_users') }}"><i class="fas fa-user-shield me-1"></i>{{ _('Admin Usuarios') }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fas fa-calculator me-1"></i>{{ _('Cálculos') }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fas fa-chart-bar me-1"></i>{{ _('Reportes') }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fas fa-file-export me-1"></i>{{ _('Exportaciones') }}</a>
+            </li>
+            {% elif session.role in ['Ingeniero', 'Consultor'] %}
+            <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fas fa-calculator me-1"></i>{{ _('Cálculos') }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fas fa-chart-bar me-1"></i>{{ _('Reportes') }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fas fa-file-export me-1"></i>{{ _('Exportaciones') }}</a>
+            </li>
+            {% endif %}
           </li>
         </ul>
 
@@ -74,7 +90,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
               <i class="fas fa-user me-1"></i>{{ session.username }}
-              {% if session.role == 'admin' %}
+              {% if session.role == 'Administrador' %}
               <span class="badge bg-danger">Admin</span>
               {% endif %}
             </a>
