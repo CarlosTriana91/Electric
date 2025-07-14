@@ -1,288 +1,645 @@
-# Spanish translations for PROJECT.
-# Copyright (C) 2025 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# Spanish translations for Mi Aplicación Eléctrica.
+# Copyright (C) 2025
+# This file is distributed under the same license as the Mi Aplicación Eléctrica package.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
+"Project-Id-Version: Mi Aplicación Eléctrica 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-03 18:50-0500\n"
-"PO-Revision-Date: 2025-07-03 14:30-0500\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2025-07-14 11:11-0500\n"
+"PO-Revision-Date: 2025-07-14 12:00-0500\n"
+"Last-Translator: Tu Nombre <EMAIL@ADDRESS>\n"
 "Language: es\n"
-"Language-Team: es <LL@li.org>\n"
+"Language-Team: Spanish <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: templates/base.html:7
+#: ./templates/base.html:7 templates/base.html:7
 msgid "Mi App Cableado"
 msgstr "Mi App Cableado"
 
-#: templates/base.html:24
+#: ./templates/base.html:24 templates/base.html:24
 msgid "Cableado Eléctrico"
 msgstr "Cableado Eléctrico"
 
-#: templates/base.html:34 templates/dashboard.html:2 templates/dashboard.html:5
+#: ./templates/base.html:34 ./templates/dashboard.html:2
+#: ./templates/dashboard.html:5 templates/base.html:34
+#: templates/dashboard.html:2 templates/dashboard.html:5
 msgid "Dashboard"
-msgstr "Panel de Control"
+msgstr "Dashboard"
 
-#: templates/base.html:44
+#: ./templates/base.html:38 templates/base.html:38
+msgid "Admin Usuarios"
+msgstr "Admin Usuarios"
+
+#: ./templates/admin/dashboard.html:54 ./templates/base.html:41
+#: ./templates/base.html:51 ./templates/dashboard.html:52
+#: templates/admin/dashboard.html:54 templates/base.html:41
+#: templates/base.html:51 templates/dashboard.html:52
+msgid "Cálculos"
+msgstr "Cálculos"
+
+#: ./templates/base.html:44 ./templates/base.html:54 templates/base.html:44
+#: templates/base.html:54
+msgid "Reportes"
+msgstr "Reportes"
+
+#: ./templates/base.html:47 ./templates/base.html:57 templates/base.html:47
+#: templates/base.html:57
+msgid "Exportaciones"
+msgstr "Exportaciones"
+
+#: ./templates/base.html:69 templates/base.html:69
 msgid "Idioma"
 msgstr "Idioma"
 
-#: templates/base.html:83
+#: ./templates/base.html:106 templates/base.html:106
 msgid "Cerrar Sesión"
 msgstr "Cerrar Sesión"
 
-#: templates/base.html:99
+#: ./templates/admin/users.html:6 ./templates/base.html:122
+#: ./templates/users_admin.html:6 templates/admin/users.html:6
+#: templates/base.html:122 templates/users_admin.html:6
 msgid "Inicio"
 msgstr "Inicio"
 
-#: templates/base.html:131
+#: ./templates/base.html:154 templates/base.html:154
 msgid "Cargando..."
 msgstr "Cargando..."
 
-#: templates/dashboard.html:13
+#: ./templates/admin/dashboard.html:13 ./templates/dashboard.html:12
+#: templates/admin/dashboard.html:13 templates/dashboard.html:12
+msgid "Panel de Control"
+msgstr "Panel de Control"
+
+#: ./templates/admin/dashboard.html:14 ./templates/dashboard.html:13
+#: templates/admin/dashboard.html:14 templates/dashboard.html:13
+msgid "Selecciona un módulo para empezar a trabajar."
+msgstr "Selecciona un módulo para empezar a trabajar."
+
+#: ./templates/admin/dashboard.html:24 ./templates/dashboard.html:22
+#: templates/admin/dashboard.html:24 templates/dashboard.html:22
 msgid "Proyectos"
 msgstr "Proyectos"
 
-#: templates/dashboard.html:16
-msgid "Nuevo Proyecto"
-msgstr "Nuevo Proyecto"
+#: ./templates/admin/dashboard.html:25 ./templates/dashboard.html:23
+#: templates/admin/dashboard.html:25 templates/dashboard.html:23
+msgid "Gestiona tus proyectos."
+msgstr "Gestiona tus proyectos."
 
-#: templates/dashboard.html:26
-msgid "Buscar proyecto..."
-msgstr "Buscar proyecto..."
+#: ./templates/admin/dashboard.html:34 ./templates/dashboard.html:32
+#: templates/admin/dashboard.html:34 templates/dashboard.html:32
+msgid "Plantas"
+msgstr "Plantas"
 
-#: templates/dashboard.html:31
-msgid "Todos los usuarios"
-msgstr "Todos los usuarios"
+#: ./templates/admin/dashboard.html:35 ./templates/dashboard.html:33
+#: templates/admin/dashboard.html:35 templates/dashboard.html:33
+msgid "Administra las plantas."
+msgstr "Administra las plantas."
 
-#: templates/dashboard.html:39
-msgid "Todas las fechas"
-msgstr "Todas las fechas"
+#: ./templates/admin/dashboard.html:44 ./templates/dashboard.html:42
+#: templates/admin/dashboard.html:44 templates/dashboard.html:42
+msgid "Equipos"
+msgstr "Equipos"
 
-#: templates/dashboard.html:40
-msgid "Hoy"
-msgstr "Hoy"
+#: ./templates/admin/dashboard.html:45 ./templates/dashboard.html:43
+#: templates/admin/dashboard.html:45 templates/dashboard.html:43
+msgid "Catalogo y gestión de equipos."
+msgstr "Catálogo y gestión de equipos."
 
-#: templates/dashboard.html:41
-msgid "Esta semana"
-msgstr "Esta semana"
+#: ./templates/admin/dashboard.html:55 ./templates/dashboard.html:53
+#: templates/admin/dashboard.html:55 templates/dashboard.html:53
+msgid "Realiza cálculos eléctricos."
+msgstr "Realiza cálculos eléctricos."
 
-#: templates/dashboard.html:42
-msgid "Este mes"
-msgstr "Este mes"
+#: ./templates/admin/dashboard.html:64 ./templates/dashboard.html:63
+#: templates/admin/dashboard.html:64 templates/dashboard.html:63
+msgid "Usuarios"
+msgstr "Usuarios"
 
-#: templates/dashboard.html:47
-msgid "Resetear"
-msgstr "Resetear"
+#: ./templates/admin/dashboard.html:65 ./templates/dashboard.html:64
+#: templates/admin/dashboard.html:65 templates/dashboard.html:64
+msgid "Gestiona los usuarios del sistema."
+msgstr "Gestiona los usuarios del sistema."
 
-#: templates/dashboard.html:57 templates/proyecto.html:213
-msgid "ID"
-msgstr "ID"
-
-#: templates/dashboard.html:58
-msgid "Nombre"
-msgstr "Nombre"
-
-#: templates/dashboard.html:59
-msgid "Creado por"
-msgstr "Creado por"
-
-#: templates/dashboard.html:60
-msgid "Fecha"
-msgstr "Fecha"
-
-#: templates/dashboard.html:61 templates/proyecto.html:219
-msgid "Estado"
-msgstr "Estado"
-
-#: templates/dashboard.html:62
-msgid "Acciones"
-msgstr "Acciones"
-
-#: templates/dashboard.html:83
-msgid "Completado"
-msgstr "Completado"
-
-#: templates/dashboard.html:85
-msgid "En Proceso"
-msgstr "En Proceso"
-
-#: templates/dashboard.html:87
-msgid "Pendiente"
-msgstr "Pendiente"
-
-#: templates/dashboard.html:111
-msgid "Confirmar eliminación"
-msgstr "Confirmar eliminación"
-
-#: templates/dashboard.html:115
-msgid "¿Estás seguro de que deseas eliminar el proyecto"
-msgstr "¿Estás seguro de que deseas eliminar el proyecto"
-
-#: templates/dashboard.html:119
-msgid "Cancelar"
-msgstr "Cancelar"
-
-#: templates/dashboard.html:124
-msgid "Eliminar"
-msgstr "Eliminar"
-
-#: templates/dashboard.html:138
-msgid "No hay proyectos aún."
-msgstr "No hay proyectos aún."
-
-#: templates/dashboard.html:140
-msgid "Crear primer proyecto"
-msgstr "Crear primer proyecto"
-
-#: templates/login.html:4 templates/login.html:8 templates/login.html:68
+#: ./templates/login.html:4 ./templates/login.html:8 ./templates/login.html:62
+#: templates/login.html:4 templates/login.html:8 templates/login.html:62
 msgid "Iniciar Sesión"
 msgstr "Iniciar Sesión"
 
-#: templates/login.html:24
+#: ./templates/login.html:24 templates/login.html:24
 msgid "Bienvenido"
 msgstr "Bienvenido"
 
-#: templates/login.html:25
+#: ./templates/login.html:25 templates/login.html:25
 msgid "Inicia sesión para continuar"
 msgstr "Inicia sesión para continuar"
 
-#: templates/login.html:37
+#: ./templates/login.html:37 templates/login.html:37
 msgid "Usuario"
 msgstr "Usuario"
 
-#: templates/login.html:49
+#: ./templates/admin/users.html:29 ./templates/login.html:49
+#: ./templates/users_admin.html:29 templates/admin/users.html:29
+#: templates/login.html:49 templates/users_admin.html:29
 msgid "Contraseña"
 msgstr "Contraseña"
 
-#: templates/login.html:60
-msgid "Recordar sesión"
-msgstr "Recordar sesión"
-
-#: templates/login.html:77
+#: ./templates/login.html:71 templates/login.html:71
 msgid "¿Olvidaste tu contraseña?"
 msgstr "¿Olvidaste tu contraseña?"
 
-#: templates/login.html:88
+#: ./templates/login.html:82 templates/login.html:82
 msgid "¿Necesitas ayuda? Contacta al administrador"
 msgstr "¿Necesitas ayuda? Contacta al administrador"
 
-#: templates/login.html:101
+#: ./templates/login.html:95 templates/login.html:95
 msgid "Recuperar Contraseña"
 msgstr "Recuperar Contraseña"
 
-#: templates/login.html:106
-msgid "Por favor, contacta al administrador del sistema para restablecer tu contraseña."
-msgstr "Por favor, contacta al administrador del sistema para restablecer tu contraseña."
+#: ./templates/login.html:100 templates/login.html:100
+msgid ""
+"Por favor, contacta al administrador del sistema para restablecer tu "
+"contraseña."
+msgstr ""
+"Por favor, contacta al administrador del sistema para restablecer tu "
+"contraseña."
 
-#: templates/proyecto.html:23
+#: ./templates/proyecto.html:23 templates/proyecto.html:23
 msgid "Imprimir"
 msgstr "Imprimir"
 
-#: templates/proyecto.html:26
+#: ./templates/proyecto.html:26 templates/proyecto.html:26
 msgid "Exportar"
 msgstr "Exportar"
 
-#: templates/proyecto.html:44
+#: ./templates/proyecto.html:44 templates/proyecto.html:44
 msgid "Cargar Datos"
 msgstr "Cargar Datos"
 
-#: templates/proyecto.html:49
+#: ./templates/proyecto.html:49 templates/proyecto.html:49
 msgid "Parámetros"
 msgstr "Parámetros"
 
-#: templates/proyecto.html:54
+#: ./templates/proyecto.html:54 templates/proyecto.html:54
 msgid "Resultados"
 msgstr "Resultados"
 
-#: templates/proyecto.html:73
+#: ./templates/proyecto.html:73 templates/proyecto.html:73
 msgid "Archivo Excel"
 msgstr "Archivo Excel"
 
-#: templates/proyecto.html:82
+#: ./templates/proyecto.html:82 templates/proyecto.html:82
 msgid "Subir"
 msgstr "Subir"
 
-#: templates/proyecto.html:86
+#: ./templates/proyecto.html:86 templates/proyecto.html:86
 msgid "El archivo debe contener las siguientes columnas:"
 msgstr "El archivo debe contener las siguientes columnas:"
 
-#: templates/proyecto.html:92
+#: ./templates/proyecto.html:92 templates/proyecto.html:92
 msgid "Columna"
 msgstr "Columna"
 
+#: ./templates/proyecto.html:93 ./templates/proyecto.html:214
 #: templates/proyecto.html:93 templates/proyecto.html:214
 msgid "Descripción"
 msgstr "Descripción"
 
-#: templates/proyecto.html:94
+#: ./templates/proyecto.html:94 templates/proyecto.html:94
 msgid "Tipo"
 msgstr "Tipo"
 
-#: templates/proyecto.html:149
+#: ./templates/proyecto.html:149 templates/proyecto.html:149
 msgid "Temperatura ambiente"
 msgstr "Temperatura ambiente"
 
-#: templates/proyecto.html:166
+#: ./templates/proyecto.html:166 templates/proyecto.html:166
 msgid "Nº conductores"
 msgstr "Nº conductores"
 
-#: templates/proyecto.html:180
+#: ./templates/proyecto.html:180 templates/proyecto.html:180
 msgid "Voltaje sistema"
 msgstr "Voltaje sistema"
 
-#: templates/proyecto.html:197
+#: ./templates/proyecto.html:197 templates/proyecto.html:197
 msgid "Ejecutar Cálculo"
 msgstr "Ejecutar Cálculo"
 
-#: templates/proyecto.html:215
+#: ./templates/proyecto.html:213 templates/proyecto.html:213
+msgid "ID"
+msgstr "ID"
+
+#: ./templates/proyecto.html:215 templates/proyecto.html:215
 msgid "Corriente (A)"
 msgstr "Corriente (A)"
 
-#: templates/admin/users.html:2
+#: ./templates/proyecto.html:216 templates/proyecto.html:216
+msgid "Calibre"
+msgstr "Calibre"
+
+#: ./templates/proyecto.html:217 templates/proyecto.html:217
+msgid "%Caída"
+msgstr "%Caída"
+
+#: ./templates/proyecto.html:218 templates/proyecto.html:218
+msgid "Canalización"
+msgstr "Canalización"
+
+#: ./templates/proyecto.html:219 templates/proyecto.html:219
+msgid "Estado"
+msgstr "Estado"
+
+#: ./templates/proyecto.html:245 templates/proyecto.html:245
+msgid "OK"
+msgstr "OK"
+
+#: ./templates/proyecto.html:247 templates/proyecto.html:247
+msgid "Revisar"
+msgstr "Revisar"
+
+#: ./templates/proyecto.html:249 templates/proyecto.html:249
+msgid "Fuera de rango"
+msgstr "Fuera de rango"
+
+#: ./templates/proyecto.html:262 templates/proyecto.html:262
+msgid "No hay resultados disponibles."
+msgstr "No hay resultados disponibles."
+
+#: ./templates/proyecto.html:263 templates/proyecto.html:263
+msgid "Completa los pasos anteriores para ver los resultados aquí."
+msgstr "Completa los pasos anteriores para ver los resultados aquí."
+
+#: ./templates/admin/users.html:3 ./templates/admin/users.html:7
+#: ./templates/users_admin.html:3 ./templates/users_admin.html:7
+#: templates/admin/users.html:3 templates/admin/users.html:7
+#: templates/users_admin.html:3 templates/users_admin.html:7
 msgid "Gestión de Usuarios"
 msgstr "Gestión de Usuarios"
 
-#: templates/admin/users.html:13
-msgid "Usuarios"
-msgstr "Usuarios"
+#: ./templates/admin/users.html:16 ./templates/users_admin.html:16
+#: templates/admin/users.html:16 templates/users_admin.html:16
+msgid "Crear Nuevo Usuario"
+msgstr "Crear Nuevo Usuario"
 
-#: templates/admin/users.html:16
-msgid "Nuevo Usuario"
-msgstr "Nuevo Usuario"
+#: ./templates/admin/users.html:21 ./templates/admin/users.html:58
+#: ./templates/admin/users.html:69 ./templates/admin/users.html:121
+#: ./templates/users_admin.html:21 ./templates/users_admin.html:58
+#: ./templates/users_admin.html:69 templates/admin/users.html:21
+#: templates/admin/users.html:58 templates/admin/users.html:69
+#: templates/admin/users.html:121 templates/users_admin.html:21
+#: templates/users_admin.html:58 templates/users_admin.html:69
+msgid "Nombre de Usuario"
+msgstr "Nombre de Usuario"
 
-#: templates/admin/users.html:26
-msgid "Buscar usuario..."
-msgstr "Buscar usuario..."
+#: ./templates/admin/users.html:25 ./templates/admin/users.html:59
+#: ./templates/admin/users.html:70 ./templates/admin/users.html:125
+#: ./templates/users_admin.html:25 ./templates/users_admin.html:59
+#: ./templates/users_admin.html:70 templates/admin/users.html:25
+#: templates/admin/users.html:59 templates/admin/users.html:70
+#: templates/admin/users.html:125 templates/users_admin.html:25
+#: templates/users_admin.html:59 templates/users_admin.html:70
+msgid "Correo Electrónico"
+msgstr "Correo Electrónico"
 
-#: templates/admin/users.html:58
+#: ./templates/admin/users.html:33 ./templates/admin/users.html:60
+#: ./templates/admin/users.html:71 ./templates/users_admin.html:33
+#: ./templates/users_admin.html:60 ./templates/users_admin.html:71
+#: templates/admin/users.html:33 templates/admin/users.html:60
+#: templates/admin/users.html:71 templates/users_admin.html:33
+#: templates/users_admin.html:60 templates/users_admin.html:71
 msgid "Rol"
 msgstr "Rol"
 
-#: templates/admin/users.html:83
-msgid "Admin"
-msgstr "Admin"
+#: ./templates/admin/users.html:35 ./templates/admin/users.html:84
+#: ./templates/users_admin.html:35 ./templates/users_admin.html:88
+#: templates/admin/users.html:35 templates/admin/users.html:84
+#: templates/users_admin.html:35 templates/users_admin.html:88
+msgid "Ingeniero"
+msgstr "Ingeniero"
 
-#: templates/admin/users.html:85
-msgid "Usuario"
-msgstr "Usuario"
+#: ./templates/admin/users.html:36 ./templates/admin/users.html:85
+#: ./templates/users_admin.html:36 ./templates/users_admin.html:89
+#: templates/admin/users.html:36 templates/admin/users.html:85
+#: templates/users_admin.html:36 templates/users_admin.html:89
+msgid "Consultor"
+msgstr "Consultor"
 
-#: templates/admin/users.html:111
-msgid "¿Estás seguro de que deseas eliminar el usuario"
-msgstr "¿Estás seguro de que deseas eliminar el usuario"
+#: ./templates/admin/users.html:37 ./templates/admin/users.html:86
+#: ./templates/users_admin.html:37 ./templates/users_admin.html:90
+#: templates/admin/users.html:37 templates/admin/users.html:86
+#: templates/users_admin.html:37 templates/users_admin.html:90
+msgid "Administrador"
+msgstr "Administrador"
 
-#: templates/admin/users.html:138
-msgid "No hay usuarios aún."
-msgstr "No hay usuarios aún."
+#: ./templates/admin/users.html:41 ./templates/users_admin.html:41
+#: templates/admin/users.html:41 templates/users_admin.html:41
+msgid "Crear Usuario"
+msgstr "Crear Usuario"
 
-#: templates/admin/users.html:140
-msgid "Crear primer usuario"
-msgstr "Crear primer usuario"
+#: ./templates/admin/users.html:52 ./templates/users_admin.html:52
+#: templates/admin/users.html:52 templates/users_admin.html:52
+msgid "Usuarios Existentes"
+msgstr "Usuarios Existentes"
+
+#: ./templates/admin/users.html:55 ./templates/users_admin.html:55
+#: templates/admin/users.html:55 templates/users_admin.html:55
+msgid "Ordenar por"
+msgstr "Ordenar por"
+
+#: ./templates/admin/users.html:72 ./templates/users_admin.html:72
+#: templates/admin/users.html:72 templates/users_admin.html:72
+msgid "Acciones"
+msgstr "Acciones"
+
+#: ./templates/admin/users.html:91 ./templates/users_admin.html:95
+#: templates/admin/users.html:91 templates/users_admin.html:95
+msgid "¿Estás seguro de que quieres eliminar a este usuario?"
+msgstr "¿Estás seguro de que quieres eliminar a este usuario?"
+
+#: ./templates/admin/users.html:98 ./templates/users_admin.html:104
+#: templates/admin/users.html:98 templates/users_admin.html:104
+msgid "No hay usuarios registrados."
+msgstr "No hay usuarios registrados."
+
+#: ./templates/admin/dashboard.html:3 ./templates/admin/dashboard.html:6
+#: templates/admin/dashboard.html:3 templates/admin/dashboard.html:6
+msgid "Panel de Administración"
+msgstr "Panel de Administración"
+
+#: ./templates/admin/users.html:114 templates/admin/users.html:114
+msgid "Editar Usuario"
+msgstr "Editar Usuario"
+
+#: ./templates/admin/users.html:130 templates/admin/users.html:130
+msgid "Cerrar"
+msgstr "Cerrar"
+
+#: ./templates/admin/users.html:131 templates/admin/users.html:131
+msgid "Guardar Cambios"
+msgstr "Guardar Cambios"
+
+#: ./venv/Lib/site-packages/click/core.py:1084
+#: ./venv/Lib/site-packages/click/core.py:1121
+#, python-brace-format
+msgid "{text} {deprecated_message}"
+msgstr "{text} {deprecated_message}"
+
+#: ./venv/Lib/site-packages/click/core.py:1140
+msgid "Options"
+msgstr "Opciones"
+
+#: ./venv/Lib/site-packages/click/core.py:1221
+#, python-brace-format
+msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
+msgstr "Advertencia de Desuso: El comando {name!r} está obsoleto.{extra_message}"
+
+#: ./venv/Lib/site-packages/click/core.py:1405
+msgid "Aborted!"
+msgstr "¡Abortado!"
+
+#: ./venv/Lib/site-packages/click/core.py:1779
+msgid "Commands"
+msgstr "Comandos"
+
+#: ./venv/Lib/site-packages/click/core.py:1810
+msgid "Missing command."
+msgstr "Falta el comando."
+
+#: ./venv/Lib/site-packages/click/core.py:1888
+#, python-brace-format
+msgid "No such command {name!r}."
+msgstr "No existe el comando {name!r}."
+
+#: ./venv/Lib/site-packages/click/core.py:2303
+msgid "Value must be an iterable."
+msgstr "El valor debe ser un iterable."
+
+#: ./venv/Lib/site-packages/click/core.py:2404
+#, python-brace-format
+msgid ""
+"DeprecationWarning: The {param_type} {name!r} is "
+"deprecated.{extra_message}"
+msgstr ""
+"Advertencia de Desuso: El {param_type} {name!r} está "
+"obsoleto.{extra_message}"
+
+#: ./venv/Lib/site-packages/click/core.py:2807
+#, python-brace-format
+msgid "env var: {var}"
+msgstr "var de entorno: {var}"
+
+#: ./venv/Lib/site-packages/click/core.py:2810
+#, python-brace-format
+msgid "default: {default}"
+msgstr "por defecto: {default}"
+
+#: ./venv/Lib/site-packages/click/core.py:2814
+msgid "required"
+msgstr "requerido"
+
+#: ./venv/Lib/site-packages/click/core.py:2870
+msgid "(dynamic)"
+msgstr "(dinámico)"
+
+#: ./venv/Lib/site-packages/click/decorators.py:465
+#, python-format
+msgid "%(prog)s, version %(version)s"
+msgstr "%(prog)s, versión %(version)s"
+
+#: ./venv/Lib/site-packages/click/decorators.py:522
+msgid "Show the version and exit."
+msgstr "Mostrar la versión y salir."
+
+#: ./venv/Lib/site-packages/click/decorators.py:548
+msgid "Show this message and exit."
+msgstr "Mostrar este mensaje y salir."
+
+#: ./venv/Lib/site-packages/click/exceptions.py:50
+#: ./venv/Lib/site-packages/click/exceptions.py:89
+#, python-brace-format
+msgid "Error: {message}"
+msgstr "Error: {message}"
+
+#: ./venv/Lib/site-packages/click/exceptions.py:81
+#, python-brace-format
+msgid "Try '{command} {option}' for help."
+msgstr "Prueba '{command} {option}' para obtener ayuda."
+
+#: ./venv/Lib/site-packages/click/exceptions.py:130
+#, python-brace-format
+msgid "Invalid value: {message}"
+msgstr "Valor inválido: {message}"
+
+#: ./venv/Lib/site-packages/click/exceptions.py:132
+#, python-brace-format
+msgid "Invalid value for {param_hint}: {message}"
+msgstr "Valor inválido para {param_hint}: {message}"
+
+#: ./venv/Lib/site-packages/click/exceptions.py:190
+msgid "Missing argument"
+msgstr "Falta el argumento"
+
+#: ./venv/Lib/site-packages/click/exceptions.py:192
+msgid "Missing option"
+msgstr "Falta la opción"
+
+#: ./venv/Lib/site-packages/click/exceptions.py:194
+msgid "Missing parameter"
+msgstr "Falta el parámetro"
+
+#: ./venv/Lib/site-packages/click/exceptions.py:196
+#, python-brace-format
+msgid "Missing {param_type}"
+msgstr "Falta {param_type}"
+
+#: ./venv/Lib/site-packages/click/exceptions.py:203
+#, python-brace-format
+msgid "Missing parameter: {param_name}"
+msgstr "Falta el parámetro: {param_name}"
+
+#: ./venv/Lib/site-packages/click/exceptions.py:223
+#, python-brace-format
+msgid "No such option: {name}"
+msgstr "No existe la opción: {name}"
+
+#: ./venv/Lib/site-packages/click/exceptions.py:282
+msgid "unknown error"
+msgstr "error desconocido"
+
+#: ./venv/Lib/site-packages/click/exceptions.py:289
+#, python-brace-format
+msgid "Could not open file {filename!r}: {message}"
+msgstr "No se pudo abrir el archivo {filename!r}: {message}"
+
+#: ./venv/Lib/site-packages/click/formatting.py:156
+msgid "Usage:"
+msgstr "Uso:"
+
+#: ./venv/Lib/site-packages/click/parser.py:200
+#, python-brace-format
+msgid "Argument {name!r} takes {nargs} values."
+msgstr "El argumento {name!r} toma {nargs} valores."
+
+#: ./venv/Lib/site-packages/click/parser.py:383
+#, python-brace-format
+msgid "Option {name!r} does not take a value."
+msgstr "La opción {name!r} no toma un valor."
+
+#: ./venv/Lib/site-packages/click/shell_completion.py:326
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr "El autocompletado de shell no es compatible con versiones de Bash anteriores a la 4.4."
+
+#: ./venv/Lib/site-packages/click/shell_completion.py:333
+msgid "Couldn't detect Bash version, shell completion is not supported."
+msgstr "No se pudo detectar la versión de Bash, el autocompletado de shell no es compatible."
+
+#: ./venv/Lib/site-packages/click/termui.py:162
+msgid "Repeat for confirmation"
+msgstr "Repite para confirmar"
+
+#: ./venv/Lib/site-packages/click/termui.py:178
+msgid "Error: The value you entered was invalid."
+msgstr "Error: El valor que ingresaste no es válido."
+
+#: ./venv/Lib/site-packages/click/termui.py:180
+#, python-brace-format
+msgid "Error: {e.message}"
+msgstr "Error: {e.message}"
+
+#: ./venv/Lib/site-packages/click/termui.py:191
+msgid "Error: The two entered values do not match."
+msgstr "Error: Los dos valores ingresados no coinciden."
+
+#: ./venv/Lib/site-packages/click/termui.py:247
+msgid "Error: invalid input"
+msgstr "Error: entrada no válida"
+
+#: ./venv/Lib/site-packages/click/termui.py:866
+msgid "Press any key to continue..."
+msgstr "Presiona cualquier tecla para continuar..."
+
+#: ./venv/Lib/site-packages/click/types.py:332
+#, python-brace-format
+msgid ""
+"Choose from:\n"
+"\t{choices}"
+msgstr ""
+"Elige entre:\n"
+"\t{choices}"
+
+#: ./venv/Lib/site-packages/click/types.py:482
+#, python-brace-format
+msgid "{value!r} is not a valid {number_type}."
+msgstr "{value!r} no es un {number_type} válido."
+
+#: ./venv/Lib/site-packages/click/types.py:538
+#, python-brace-format
+msgid "{value} is not in the range {range}."
+msgstr "{value} no está en el rango {range}."
+
+#: ./venv/Lib/site-packages/click/types.py:679
+#, python-brace-format
+msgid "{value!r} is not a valid boolean."
+msgstr "{value!r} no es un booleano válido."
+
+#: ./venv/Lib/site-packages/click/types.py:703
+#, python-brace-format
+msgid "{value!r} is not a valid UUID."
+msgstr "{value!r} no es un UUID válido."
+
+#: ./venv/Lib/site-packages/click/types.py:893
+msgid "file"
+msgstr "archivo"
+
+#: ./venv/Lib/site-packages/click/types.py:895
+msgid "directory"
+msgstr "directorio"
+
+#: ./venv/Lib/site-packages/click/types.py:897
+msgid "path"
+msgstr "ruta"
+
+#: ./venv/Lib/site-packages/click/types.py:944
+#, python-brace-format
+msgid "{name} {filename!r} does not exist."
+msgstr "{name} {filename!r} no existe."
+
+#: ./venv/Lib/site-packages/click/types.py:953
+#, python-brace-format
+msgid "{name} {filename!r} is a file."
+msgstr "{name} {filename!r} es un archivo."
+
+#: ./venv/Lib/site-packages/click/types.py:961
+#, python-brace-format
+msgid "{name} {filename!r} is a directory."
+msgstr "{name} {filename!r} es un directorio."
+
+#: ./venv/Lib/site-packages/click/types.py:970
+#, python-brace-format
+msgid "{name} {filename!r} is not readable."
+msgstr "{name} {filename!r} no es legible."
+
+#: ./venv/Lib/site-packages/click/types.py:979
+#, python-brace-format
+msgid "{name} {filename!r} is not writable."
+msgstr "{name} {filename!r} no se puede escribir."
+
+#: ./venv/Lib/site-packages/click/types.py:988
+#, python-brace-format
+msgid "{name} {filename!r} is not executable."
+msgstr "{name} {filename!r} no es ejecutable."
+
+#: ./venv/Lib/site-packages/click/_termui_impl.py:600
+#, python-brace-format
+msgid "{editor}: Editing failed"
+msgstr "{editor}: Falló la edición"
+
+#: ./venv/Lib/site-packages/click/_termui_impl.py:604
+#, python-brace-format
+msgid "{editor}: Editing failed: {e}"
+msgstr "{editor}: Falló la edición: {e}"
 
