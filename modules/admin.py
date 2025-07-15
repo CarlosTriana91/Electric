@@ -1,9 +1,10 @@
 # modules/admin.py
 
+# modules/admin.py
+
 print("Importing admin module...")
 from flask import (Blueprint, render_template, request, redirect, 
-                   url_for, flash, session)
-import sqlite3
+                   url_for, flash, session, g)
 import bcrypt
 from functools import wraps
 
@@ -26,16 +27,6 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# --- Funciones de base de datos ---
-from flask import current_app
-
-def get_user_db_connection():
-    """Función auxiliar para conectar a la base de datos de usuarios."""
-    db_path = current_app.config['USER_DB']
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
-    return conn
-
 # --- Rutas del panel de administración ---
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
@@ -48,7 +39,6 @@ def manage_users():
     - Muestra la lista de todos los usuarios.
     - Procesa el formulario para crear o actualizar un usuario.
     """
-    conn = get_user_db_connection()
 
     if request.method == 'POST':
         user_id = request.form.get('user_id')
@@ -57,10 +47,10 @@ def manage_users():
             new_role = request.form.get('role')
             if new_role:
                 try:
-                    conn.execute('UPDATE users SET role = ? WHERE id = ?', (new_role, user_id))
-                    conn.commit()
+                    g.user_db.execute('UPDATE users SET role = ? WHERE id = ?', (new_role, user_id))
+                    g.user_db.commit()
                     flash('Rol de usuario actualizado exitosamente.', 'success')
-                except sqlite3.Error as e:
+                except Exception as e:
                     flash(f'Error al actualizar el rol del usuario: {e}', 'danger')
             else:
                 flash('No se proporcionó un nuevo rol.', 'warning')
@@ -76,14 +66,13 @@ def manage_users():
             else:
                 hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
                 try:
-                    conn.execute('INSERT INTO users (username, password, role, email) VALUES (?, ?, ?, ?)',
+                    g.user_db.execute('INSERT INTO users (username, password, role, email) VALUES (?, ?, ?, ?)',
                                  (username, hashed_password, role, email))
-                    conn.commit()
+                    g.user_db.commit()
                     flash(f'Usuario "{username}" creado exitosamente.', 'success')
-                except sqlite3.IntegrityError:
+                except Exception as e:
                     flash(f'El nombre de usuario "{username}" o el correo "{email}" ya existen.', 'danger')
         
-        conn.close()
         return redirect(url_for('admin.manage_users'))
 
     # Lógica para GET (mostrar usuarios con ordenación)
@@ -91,8 +80,7 @@ def manage_users():
     if sort_by not in ['username', 'role', 'email']:
         sort_by = 'username'
 
-    users = conn.execute(f'SELECT id, username, role, email FROM users ORDER BY {sort_by}').fetchall()
-    conn.close()
+    users = g.user_db.execute(f'SELECT id, username, role, email FROM users ORDER BY {sort_by}').fetchall()
     
     return render_template('admin/users.html', users=users)
 
@@ -110,15 +98,11 @@ def edit_user(user_id):
         return redirect(url_for('admin.manage_users'))
 
     try:
-        conn = get_user_db_connection()
-        conn.execute('UPDATE users SET username = ?, email = ? WHERE id = ?', (new_username, new_email, user_id))
-        conn.commit()
-        conn.close()
+        g.user_db.execute('UPDATE users SET username = ?, email = ? WHERE id = ?', (new_username, new_email, user_id))
+        g.user_db.commit()
         flash('Usuario actualizado exitosamente.', 'success')
-    except sqlite3.IntegrityError:
+    except Exception as e:
         flash(f'El nombre de usuario "{new_username}" o el correo "{new_email}" ya existen.', 'danger')
-    except sqlite3.Error as e:
-        flash(f'Error al actualizar el usuario: {e}', 'danger')
     
     return redirect(url_for('admin.manage_users'))
 
@@ -129,11 +113,9 @@ def delete_user(user_id):
     Ruta para eliminar un usuario.
     """
     try:
-        conn = get_user_db_connection()
-        conn.execute('DELETE FROM users WHERE id = ?', (user_id,))
-        conn.commit()
-        conn.close()
+        g.user_db.execute('DELETE FROM users WHERE id = ?', (user_id,))
+        g.user_db.commit()
         flash('Usuario eliminado exitosamente.', 'success')
-    except sqlite3.Error as e:
+    except Exception as e:
         flash(f'Error al eliminar el usuario: {e}', 'danger')
     return redirect(url_for('admin.manage_users'))

@@ -3,13 +3,14 @@ import sqlite3
 import bcrypt
 from flask import current_app
 
-def init_db(app):
-    """Inicializa todas las bases de datos de la aplicación."""
-    with app.app_context():
-        user_db_path = current_app.config['USER_DB']
-        calc_db_path = current_app.config['CALC_DB']
-        init_user_db(user_db_path)
-        init_normative_db(calc_db_path)
+def init_db(db_path, schema_path):
+    """Inicializa una base de datos usando un archivo de esquema SQL."""
+    conn = sqlite3.connect(db_path)
+    with open(schema_path, 'r') as f:
+        conn.executescript(f.read())
+    conn.commit()
+    conn.close()
+    print(f"Base de datos en '{db_path}' inicializada con esquema '{schema_path}'.")
 
 def init_user_db(db_path):
     """Crea y llena la base de datos de usuarios con un admin por defecto."""
@@ -133,3 +134,4 @@ def init_normative_db(db_path):
     conn.commit()
     conn.close()
     print("Base de datos normativa inicializada con éxito.")
+

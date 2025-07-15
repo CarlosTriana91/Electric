@@ -12,73 +12,36 @@ Características principales:
 """
 
 from flask import (
-    Blueprint,        # Para crear módulos independientes de rutas
-    render_template,  # Para renderizar vistas HTML
-    request,          # Para acceder a datos de peticiones HTTP
-    redirect,         # Para redireccionar a otras rutas
-    url_for,          # Para generar URLs dinámicas
-    session,          # Para manejar datos de sesión del usuario
-    flash,            # Para mensajes flash entre peticiones
-    current_app       # Para acceder a la configuración global
+    Blueprint, render_template, request, redirect, url_for, session, flash, g
 )
-import sqlite3  # Base de datos ligera para almacenar usuarios
 import bcrypt
+from forms import LoginForm
 
 # Blueprint de autenticación
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth', template_folder='templates')
 
-def get_db():
-   """Establece conexión con la base de datos de usuarios."""
-   db_path = current_app.config['USER_DB']
-   conn = sqlite3.connect(db_path)
-   conn.row_factory = sqlite3.Row
-   return conn
-
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    """Maneja el proceso de autenticación de usuarios.
-    
-    GET: Muestra el formulario de login
-    POST: Procesa los datos del formulario y autentica al usuario
-    
-    El proceso de autenticación incluye:
-    1. Validación de credenciales contra la base de datos
-    2. Creación de sesión para usuarios autenticados
-    3. Redirección según el resultado de la autenticación
-    
-    Returns:
-        GET: Plantilla del formulario de login
-        POST: Redirección al dashboard o nuevamente al login si falla
-    """
-    if request.method == 'POST':
-        # Obtener credenciales del formulario
-        username = request.form['username'] # Nombre de usuario
-        # Es importante codificar la contraseña que viene del formulario
-        password = request.form['password'].encode('utf-8')
-       
-        # Verificar credenciales en la base de datos
-        conn = get_db()
-        user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
-        conn.close()
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data.encode('utf-8')
 
+        user = g.user_db.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
 
-        # Validar credenciales y crear sesión
-         # Se usa bcrypt.checkpw para ser consistente con la creación de usuarios
-        # La contraseña de la BD (user['password']) ya está en bytes.
         if user and bcrypt.checkpw(password, user['password']):
             session.clear()
             session['user_id'] = user['id']
             session['username'] = user['username']
             session['role'] = user['role']
-
-            
+            print(f"DEBUG: Datos de sesión guardados -> {session}")
             flash('Inicio de sesión exitoso.', 'success')
             return redirect(url_for('dashboard'))
         else:
             flash('Usuario o contraseña incorrectos.', 'danger')
-            
-    return render_template('login.html', template_name='auth/login.html')
+
+    return render_template('login.html', form=form)
 
 @auth_bp.route('/logout')
 def logout():

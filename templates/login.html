@@ -26,41 +26,29 @@
         </div>
 
         <form method="post" id="loginForm" class="needs-validation" novalidate>
-          {# Formulario con validación del lado del cliente #}
-
-          {# Campo de usuario con validación y autocompletado #}
+          {{ form.hidden_tag() }}
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="username" name="username" placeholder="Usuario" required
-              pattern="[a-zA-Z0-9_]{3,}" {# Solo permite caracteres alfanuméricos y guión bajo #}
-              autocomplete="username">
+            {{ form.username(class="form-control", placeholder="Usuario", required="required", autocomplete="username") }}
             <label for="username">
               <i class="fas fa-user me-2"></i>{{ _('Usuario') }}
             </label>
-            <div class="invalid-feedback">
-              El usuario debe tener al menos 3 caracteres alfanuméricos
-            </div>
+            {% for error in form.username.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
           </div>
 
-          {# Campo de contraseña con validación y autocompletado seguro #}
           <div class="form-floating mb-4">
-            <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required
-              minlength="6" {# Longitud mínima de seguridad #} autocomplete="current-password">
+            {{ form.password(class="form-control", placeholder="Contraseña", required="required", autocomplete="current-password") }}
             <label for="password">
               <i class="fas fa-lock me-2"></i>{{ _('Contraseña') }}
             </label>
-            <div class="invalid-feedback">
-              La contraseña debe tener al menos 6 caracteres
-            </div>
+            {% for error in form.password.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
           </div>
 
-
-
-          {# Botón de inicio de sesión con indicador de carga #}
           <div class="d-grid">
-            <button type="submit" class="btn btn-primary btn-lg" id="loginButton">
-              <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
-              <i class="fas fa-sign-in-alt me-2"></i>{{ _('Iniciar Sesión') }}
-            </button>
+            {{ form.submit(class="btn btn-primary btn-lg", id="loginButton") }}
           </div>
         </form>
 

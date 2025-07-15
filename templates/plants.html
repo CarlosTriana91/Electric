@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Gestión de Plantas') }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Columna para el formulario de creación -->
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-industry me-2"></i>{{ _('Crear Nueva Planta') }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('plants.manage_plants') }}">
+                    {{ csrf_token() }}
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">{{ _('Nombre') }}</label>
+                        <input type="text" class="form-control" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cliente" class="form-label">{{ _('Cliente') }}</label>
+                        <input type="text" class="form-control" name="cliente">
+                    </div>
+                    <div class="mb-3">
+                        <label for="sigla" class="form-label">{{ _('Sigla') }}</label>
+                        <input type="text" class="form-control" name="sigla">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pais" class="form-label">{{ _('País') }}</label>
+                        <input type="text" class="form-control" name="pais">
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="elevacion" class="form-label">{{ _('Elevación (m)') }}</label>
+                            <input type="number" step="any" class="form-control" name="elevacion">
+                        </div>
+                        <div class="col">
+                            <label for="humedad" class="form-label">{{ _('Humedad (%%)') }}</label>
+                            <input type="number" step="any" class="form-control" name="humedad">
+                        </div>
+                    </div>
+                    <div class="d-grid mt-3">
+                        <button type="submit" class="btn btn-primary">{{ _('Crear Planta') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Columna para la lista de plantas -->
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="fas fa-list-alt me-2"></i>{{ _('Plantas Existentes') }}</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{ _('Nombre') }}</th>
+                                <th>{{ _('Cliente') }}</th>
+                                <th>{{ _('Sigla') }}</th>
+                                <th>{{ _('País') }}</th>
+                                <th>{{ _('Acciones') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for plant in plants %}
+                            <tr>
+                                <td>
+                                    <a href="{{ url_for('projects.manage_projects', planta_id=plant.id) }}">
+                                        {{ plant.nombre }}
+                                    </a>
+                                </td>
+                                <td>{{ plant.cliente }}</td>
+                                <td>{{ plant.sigla }}</td>
+                                <td>{{ plant.pais }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning edit-btn" data-bs-toggle="modal"
+                                        data-bs-target="#editPlantModal" data-id="{{ plant.id }}"
+                                        data-nombre="{{ plant.nombre }}" data-cliente="{{ plant.cliente }}"
+                                        data-sigla="{{ plant.sigla }}" data-pais="{{ plant.pais }}"
+                                        data-elevacion="{{ plant.elevacion }}" data-humedad="{{ plant.humedad }}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <form action="{{ url_for('plants.delete_plant', id=plant.id) }}" method="POST"
+                                        class="d-inline" onsubmit="return confirm('¿Estás seguro?');">
+                                        {{ csrf_token() }}
+                                        <button type="submit" class="btn btn-sm btn-danger"><i
+                                                class="fas fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">{{ _('No hay plantas registradas.') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Editar Planta -->
+<div class="modal fade" id="editPlantModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="editPlantForm" method="POST">
+                {{ csrf_token() }}
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ _('Editar Planta') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="edit-id">
+                    <div class="mb-3">
+                        <label for="edit-nombre" class="form-label">{{ _('Nombre') }}</label>
+                        <input type="text" class="form-control" name="nombre" id="edit-nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-cliente" class="form-label">{{ _('Cliente') }}</label>
+                        <input type="text" class="form-control" name="cliente" id="edit-cliente">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-sigla" class="form-label">{{ _('Sigla') }}</label>
+                        <input type="text" class="form-control" name="sigla" id="edit-sigla">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-pais" class="form-label">{{ _('País') }}</label>
+                        <input type="text" class="form-control" name="pais" id="edit-pais">
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="edit-elevacion" class="form-label">{{ _('Elevación (m)') }}</label>
+                            <input type="number" step="any" class="form-control" name="elevacion" id="edit-elevacion">
+                        </div>
+                        <div class="col">
+                            <label for="edit-humedad" class="form-label">{{ _('Humedad (%%)') }}</label>
+                            <input type="number" step="any" class="form-control" name="humedad" id="edit-humedad">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cerrar') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ _('Guardar Cambios') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editPlantModal = document.getElementById('editPlantModal');
+        editPlantModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const form = document.getElementById('editPlantForm');
+
+            const id = button.getAttribute('data-id');
+            form.action = `/plants/edit/${id}`;
+
+            document.getElementById('edit-nombre').value = button.getAttribute('data-nombre');
+            document.getElementById('edit-cliente').value = button.getAttribute('data-cliente');
+            document.getElementById('edit-sigla').value = button.getAttribute('data-sigla');
+            document.getElementById('edit-pais').value = button.getAttribute('data-pais');
+            document.getElementById('edit-elevacion').value = button.getAttribute('data-elevacion');
+            document.getElementById('edit-humedad').value = button.getAttribute('data-humedad');
+        });
+    });
+</script>
+{% endblock %}
