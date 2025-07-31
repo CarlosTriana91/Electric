@@ -36,8 +36,8 @@
             <!-- Enlace a Plantas (visible para Admin e Ingeniero) -->
             {% if session.get('role') in ['Administrador', 'Ingeniero'] %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('plants.manage_plants') }}">
-              <i class="fas fa-industry me-1"></i>{{ _('Plantas') }}
+            <a class="nav-link" href="{{ url_for('plants.manage_plants') }}"><i class="fas fa-industry me-1"></i>{{
+              _('Plantas') }}
             </a>
           </li>
           {% endif %}
@@ -185,9 +185,37 @@
       );
     });
 
-    // Mostrar/ocultar indicador de carga
-    document.addEventListener('submit', () => document.body.classList.add('loading'));
-    window.addEventListener('load', () => document.body.classList.remove('loading'));
+    // Lógica del indicador de carga mejorada
+    const loadingIndicator = document.querySelector('.loading');
+
+    // Mostrar al enviar un formulario
+    document.addEventListener('submit', (e) => {
+      // Solo mostrar si el formulario es válido
+      if (e.target.checkValidity()) {
+        loadingIndicator.style.display = 'block';
+      }
+    });
+
+    // Ocultar cuando la página se carga completamente
+    window.addEventListener('load', () => {
+      loadingIndicator.style.display = 'none';
+    });
+
+    // Ocultar si el usuario navega hacia atrás
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        loadingIndicator.style.display = 'none';
+      }
+    });
+
+    // Manejo de la confirmación de eliminación
+    document.addEventListener('submit', function (e) {
+      if (e.target.classList.contains('delete-form')) {
+        if (!confirm('{{ _('¿Estás seguro de que quieres eliminar este elemento ? ') }}')) {
+          e.preventDefault();
+        }
+      }
+    });
   </script>
 
   <!-- Scripts específicos de la página -->

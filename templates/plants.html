@@ -12,7 +12,7 @@
             </div>
             <div class="card-body">
                 <form method="POST" action="{{ url_for('plants.manage_plants') }}">
-                    {{ csrf_token() }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <div class="mb-3">
                         <label for="nombre" class="form-label">{{ _('Nombre') }}</label>
                         <input type="text" class="form-control" name="nombre" required>
@@ -39,6 +39,18 @@
                             <input type="number" step="any" class="form-control" name="humedad">
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <label for="medium_voltage" class="form-label">{{ _('Medium Voltage') }}</label>
+                        <input type="text" class="form-control" name="medium_voltage">
+                    </div>
+                    <div class="mb-3">
+                        <label for="low_voltage" class="form-label">{{ _('Low Voltage') }}</label>
+                        <input type="text" class="form-control" name="low_voltage">
+                    </div>
+                    <div class="mb-3">
+                        <label for="control_voltage" class="form-label">{{ _('Control Voltage') }}</label>
+                        <input type="text" class="form-control" name="control_voltage">
+                    </div>
                     <div class="d-grid mt-3">
                         <button type="submit" class="btn btn-primary">{{ _('Crear Planta') }}</button>
                     </div>
@@ -62,6 +74,9 @@
                                 <th>{{ _('Cliente') }}</th>
                                 <th>{{ _('Sigla') }}</th>
                                 <th>{{ _('País') }}</th>
+                                <th>{{ _('Medium Voltage') }}</th>
+                                <th>{{ _('Low Voltage') }}</th>
+                                <th>{{ _('Control Voltage') }}</th>
                                 <th>{{ _('Acciones') }}</th>
                             </tr>
                         </thead>
@@ -76,17 +91,22 @@
                                 <td>{{ plant.cliente }}</td>
                                 <td>{{ plant.sigla }}</td>
                                 <td>{{ plant.pais }}</td>
+                                <td>{{ plant.medium_voltage }}</td>
+                                <td>{{ plant.low_voltage }}</td>
+                                <td>{{ plant.control_voltage }}</td>
                                 <td>
                                     <button class="btn btn-sm btn-warning edit-btn" data-bs-toggle="modal"
                                         data-bs-target="#editPlantModal" data-id="{{ plant.id }}"
                                         data-nombre="{{ plant.nombre }}" data-cliente="{{ plant.cliente }}"
                                         data-sigla="{{ plant.sigla }}" data-pais="{{ plant.pais }}"
-                                        data-elevacion="{{ plant.elevacion }}" data-humedad="{{ plant.humedad }}">
+                                        data-elevacion="{{ plant.elevacion }}" data-humedad="{{ plant.humedad }}"
+                                        data-medium_voltage="{{ plant.medium_voltage }}" data-low_voltage="{{ plant.low_voltage }}"
+                                        data-control_voltage="{{ plant.control_voltage }}">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <form action="{{ url_for('plants.delete_plant', id=plant.id) }}" method="POST"
-                                        class="d-inline" onsubmit="return confirm('¿Estás seguro?');">
-                                        {{ csrf_token() }}
+                                        class="d-inline delete-form">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                         <button type="submit" class="btn btn-sm btn-danger"><i
                                                 class="fas fa-trash"></i></button>
                                     </form>
@@ -110,7 +130,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="editPlantForm" method="POST">
-                {{ csrf_token() }}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="modal-header">
                     <h5 class="modal-title">{{ _('Editar Planta') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -143,6 +163,18 @@
                             <input type="number" step="any" class="form-control" name="humedad" id="edit-humedad">
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <label for="edit-medium_voltage" class="form-label">{{ _('Medium Voltage') }}</label>
+                        <input type="text" class="form-control" name="medium_voltage" id="edit-medium_voltage">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-low_voltage" class="form-label">{{ _('Low Voltage') }}</label>
+                        <input type="text" class="form-control" name="low_voltage" id="edit-low_voltage">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-control_voltage" class="form-label">{{ _('Control Voltage') }}</label>
+                        <input type="text" class="form-control" name="control_voltage" id="edit-control_voltage">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cerrar') }}</button>
@@ -163,7 +195,7 @@
             const form = document.getElementById('editPlantForm');
 
             const id = button.getAttribute('data-id');
-            form.action = `/plants/edit/${id}`;
+            form.action = `{{ url_for('plants.edit_plant', id=0) }}`.replace('0', id);
 
             document.getElementById('edit-nombre').value = button.getAttribute('data-nombre');
             document.getElementById('edit-cliente').value = button.getAttribute('data-cliente');
@@ -171,6 +203,9 @@
             document.getElementById('edit-pais').value = button.getAttribute('data-pais');
             document.getElementById('edit-elevacion').value = button.getAttribute('data-elevacion');
             document.getElementById('edit-humedad').value = button.getAttribute('data-humedad');
+            document.getElementById('edit-medium_voltage').value = button.getAttribute('data-medium_voltage');
+            document.getElementById('edit-low_voltage').value = button.getAttribute('data-low_voltage');
+            document.getElementById('edit-control_voltage').value = button.getAttribute('data-control_voltage');
         });
     });
 </script>

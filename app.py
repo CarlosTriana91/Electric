@@ -8,17 +8,19 @@ from flask_wtf.csrf import CSRFProtect
 from config import Config
 from modules.auth import auth_bp
 from modules.admin import admin_bp
-from modules.db_init import init_db, init_user_db
+from modules.db_init import init_user_db, init_db
 from modules.plants import plants_bp
 from modules.projects import projects_bp
 
-csrf = CSRFProtect()
+
 
 def create_app():
     """Crea y configura una instancia de la aplicación Flask."""
     app = Flask(__name__)
     app.config.from_object(Config)
+    app.config['MAIN_DB'] = os.path.join('database', 'main_data.db')
 
+    csrf = CSRFProtect()
     csrf.init_app(app)
 
     babel = Babel()
@@ -92,8 +94,10 @@ def create_app():
 
         if session.get('role') == 'Administrador':
             return render_template('admin/dashboard.html', current_user=current_user)
+        elif session.get('role') == 'Ingeniero':
+            return render_template('ing/dashboard.html', current_user=current_user)
         else:
-            return render_template('dashboard.html', current_user=current_user)
+            return render_template('consultor/dashboard.html', current_user=current_user)
 
     return app
 

@@ -22,6 +22,7 @@
             </div>
             <div class="card-body">
                 <form method="POST" action="{{ url_for('projects.manage_projects', planta_id=planta.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <div class="mb-3">
                         <label for="nombre" class="form-label">{{ _('Nombre del Proyecto') }}</label>
                         <input type="text" class="form-control" name="nombre" required>
@@ -59,6 +60,7 @@
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <form action="{{ url_for('projects.delete_project', id=project.id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro?');">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                         <input type="hidden" name="planta_id" value="{{ planta.id }}">
                                         <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                                     </form>
@@ -80,6 +82,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="editProjectForm" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="modal-header">
                     <h5 class="modal-title">{{ _('Editar Proyecto') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -110,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('editProjectForm');
         
         const id = button.getAttribute('data-id');
-        form.action = `/projects/edit/${id}`;
+        form.action = `{{ url_for('projects.edit_project', id=0) }}`.replace('0', id);
         
         document.getElementById('edit-nombre').value = button.getAttribute('data-nombre');
     });

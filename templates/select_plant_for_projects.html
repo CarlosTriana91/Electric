@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ _('Seleccionar Planta') }}{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">{{ _('Dashboard') }}</a></li>
+<li class="breadcrumb-item active">{{ _('Seleccionar Planta para Proyectos') }}</li>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-center mb-4">{{ _('Seleccionar Planta') }}</h2>
+  <p class="text-center text-muted mb-4">{{ _('Por favor, selecciona una planta para ver sus proyectos.') }}</p>
+  
+  <div class="list-group">
+    {% for plant in plants %}
+      <a href="{{ url_for('projects.manage_projects', planta_id=plant.id) }}" class="list-group-item list-group-item-action">
+        <h5 class="mb-1">{{ plant.nombre }}</h5>
+        <p class="mb-1">{{ plant.ubicacion }}</p>
+      </a>
+    {% else %}
+      <div class="alert alert-warning" role="alert">
+        {{ _('No hay plantas disponibles. Por favor, crea una planta primero.') }}
+        <a href="{{ url_for('plants.manage_plants') }}" class="alert-link">{{ _('Crear Planta') }}</a>.
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

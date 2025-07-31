@@ -33,9 +33,10 @@ def manage_plants():
             humedad = request.form.get('humedad')
 
             g.plants_db.execute(
-                'INSERT INTO plants (nombre, cliente, sigla, pais, elevacion, humedad) VALUES (?, ?, ?, ?, ?, ?)',
+                'INSERT INTO plants (nombre, cliente, sigla, pais, elevacion, humedad, medium_voltage, low_voltage, control_voltage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
                 (request.form['nombre'], request.form['cliente'], request.form['sigla'], 
-                 request.form['pais'], elevacion if elevacion else None, humedad if humedad else None)
+                 request.form['pais'], elevacion if elevacion else None, humedad if humedad else None,
+                 request.form.get('medium_voltage'), request.form.get('low_voltage'), request.form.get('control_voltage'))
             )
             g.plants_db.commit()
             flash(f"Planta '{request.form['nombre']}' creada exitosamente.", 'success')
@@ -57,9 +58,10 @@ def edit_plant(id):
         elevacion = request.form.get('elevacion')
         humedad = request.form.get('humedad')
         g.plants_db.execute(
-            'UPDATE plants SET nombre=?, cliente=?, sigla=?, pais=?, elevacion=?, humedad=? WHERE id=?',
+            'UPDATE plants SET nombre=?, cliente=?, sigla=?, pais=?, elevacion=?, humedad=?, medium_voltage=?, low_voltage=?, control_voltage=? WHERE id=?',
             (request.form['nombre'], request.form['cliente'], request.form['sigla'],
-             request.form['pais'], elevacion if elevacion else None, humedad if humedad else None, id)
+             request.form['pais'], elevacion if elevacion else None, humedad if humedad else None, 
+             request.form.get('medium_voltage'), request.form.get('low_voltage'), request.form.get('control_voltage'), id)
         )
         g.plants_db.commit()
         flash('Planta actualizada exitosamente.', 'success')

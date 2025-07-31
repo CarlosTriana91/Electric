@@ -45,11 +45,38 @@ def init_user_db(db_path):
     conn.commit()
     conn.close()
 
+def init_main_db(db_path):
+    """Crea la base de datos principal (main_data.db)."""
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    # Tabla de Proyectos
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS projects (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nombre TEXT NOT NULL,
+        planta_id INTEGER,
+        FOREIGN KEY (planta_id) REFERENCES plants (id)
+    )''')
+
+    # Tabla de Equipos (puedes añadir más campos después)
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS equipment (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tag TEXT NOT NULL UNIQUE,
+        descripcion TEXT,
+        proyecto_id INTEGER,
+        FOREIGN KEY (proyecto_id) REFERENCES projects (id)
+    )''')
+    conn.commit()
+    conn.close()
+
+
 def init_normative_db(db_path):
     """Crea y llena la base de datos normativa con datos iniciales."""
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-
+    print(f"Base de datos de usuarios en '{db_path}' inicializada correctamente.")
     # Crear tabla de factores de corrección por temperatura
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS factores_correccion_temp (

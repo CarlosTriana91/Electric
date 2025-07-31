@@ -24,12 +24,21 @@ def get_main_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+@projects_bp.route('/', defaults={'planta_id': None}, methods=['GET'])
 @projects_bp.route('/<int:planta_id>', methods=['GET', 'POST'])
 @engineer_or_admin_required
 def manage_projects(planta_id):
     """
-    Muestra y gestiona los proyectos para una planta específica.
+    Muestra y gestiona los proyectos. Si no se especifica una planta,
+    muestra una página para seleccionar una.
     """
+    if planta_id is None:
+        # Si no se proporciona planta_id, mostrar página de selección de planta
+        conn = get_main_db_connection()
+        plants = conn.execute('SELECT * FROM plants ORDER BY nombre').fetchall()
+        conn.close()
+        return render_template('select_plant_for_projects.html', plants=plants)
+
     # Lógica para crear un nuevo proyecto para esta planta
     if request.method == 'POST':
         nombre_proyecto = request.form['nombre']
